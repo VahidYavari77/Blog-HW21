@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domin.Service.Services.PostAgg
 {
-    public class PostService : IPostService
+    public class PostService (IPostRepo postRepo) : IPostService
     {
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domin.Service.AppServices.CommentAgg
 {
-   public class CommentAppService: ICommentAppService
+   public class CommentAppService(ICommentService commentService) : ICommentAppService
     {
     }
 }

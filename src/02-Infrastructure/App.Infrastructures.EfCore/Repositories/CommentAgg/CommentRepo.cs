@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.EfCore.Repositories.CommentAgg
 {
-   public class CommentRepo: ICommentRepo
+   public class CommentRepo (AppDbContext appDbContext) : ICommentRepo
     {
       
     }

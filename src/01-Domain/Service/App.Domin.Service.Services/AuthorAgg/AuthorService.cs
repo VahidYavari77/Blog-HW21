@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domin.Service.Services.AuthorAgg
 {
-   public class AuthorService: IAuthorService
+   public class AuthorService(IAuthorRepo authorRepo) : IAuthorService
     {
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace App.Domin.Service.Services.CategoryAgg
 {
-  public  class CategoryService : ICategoryService
+  public  class CategoryService(ICategoryRepo categoryRepo) : ICategoryService
     {
     }
 }
