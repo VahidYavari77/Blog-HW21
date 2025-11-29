@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Infrastructures.EfCore.Repositories.PostAgg
 {
- public   class PostRepo: IPostRepo
+    public class PostRepo : IPostRepo
     {
     }
 }
