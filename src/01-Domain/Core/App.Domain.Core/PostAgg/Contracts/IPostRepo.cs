@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.PostAgg.Contracts
 {
-   public interface IPostRepocs
+   public interface IPostRepo
     {
     }
 }
