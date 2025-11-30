@@ -10,7 +10,7 @@ using App.Domin.Service.Services.AuthorAgg;
 using App.Domin.Service.Services.CategoryAgg;
 using App.Domin.Service.Services.CommentAgg;
 using App.Domin.Service.Services.PostAgg;
-using App.Infrastructures.EfCore.Persistence
+using App.Infrastructures.EfCore.Persistence;
 
 
 

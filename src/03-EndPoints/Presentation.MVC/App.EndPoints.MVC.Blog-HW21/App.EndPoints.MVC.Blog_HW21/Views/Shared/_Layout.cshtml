@@ -1,46 +1,693 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - App.EndPoints.MVC.Blog_HW21</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/App.EndPoints.MVC.Blog_HW21.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سایت نویسندگان - مکتب بلاگ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @await RenderSectionAsync("Styles", required: false)
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        :root {
+            --primary-color: #0099CC;
+            --secondary-color: #00BFFF;
+            --accent-color: #66D9FF;
+            --light-color: #E6F7FF;
+            --dark-color: #0077A3;
+            --text-color: #003366;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #0099CC 0%, #00BFFF 50%, #66D9FF 100%);
+            --gradient-light: linear-gradient(135deg, #66D9FF 0%, #00BFFF 100%);
+        }
+
+        body {
+            background: linear-gradient(135deg, #E6F7FF 0%, #B3E0FF 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1350px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient);
+            color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width:100%;
+            border-radius: 15px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            width: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .logo i {
+                font-size: 32px;
+                color: white;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 8px;
+                border-radius: 50%;
+            }
+
+            .logo h1 {
+                font-size: 26px;
+                font-weight: 700;
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            }
+
+            .logo span {
+                color: var(--light-color);
+                font-weight: 500;
+            }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-signup {
+            background-color: white;
+            border: 2px solid white;
+            color: var(--primary-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-menu {
+            display: flex;
+        }
+
+            .main-menu li {
+                position: relative;
+            }
+
+            .main-menu a {
+                display: block;
+                padding: 18px 20px;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+
+                .main-menu a:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                    color: var(--light-color);
+                }
+
+        .categories-menu {
+            position: relative;
+        }
+
+        .categories-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 220px;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .categories-menu:hover .categories-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .categories-dropdown a {
+            color: var(--text-color);
+            padding: 12px 20px;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: 500;
+        }
+
+            .categories-dropdown a:hover {
+                background-color: var(--light-color);
+                color: var(--primary-color);
+                padding-right: 25px;
+            }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 5px 15px;
+            transition: all 0.3s ease;
+        }
+
+            .search-bar:focus-within {
+                background-color: rgba(255, 255, 255, 0.3);
+                box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+            }
+
+            .search-bar input {
+                background: transparent;
+                border: none;
+                color: white;
+                padding: 8px;
+                width: 200px;
+                outline: none;
+                font-weight: 500;
+            }
+
+                .search-bar input::placeholder {
+                    color: rgba(255, 255, 255, 0.8);
+                }
+
+            .search-bar button {
+                background: transparent;
+                border: none;
+                color: white;
+                cursor: pointer;
+                padding: 5px;
+                transition: transform 0.3s ease;
+            }
+
+                .search-bar button:hover {
+                    transform: scale(1.1);
+                }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .content-box::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 5px;
+                background: var(--gradient-light);
+            }
+
+            .content-box h2 {
+                color: var(--primary-color);
+                margin-bottom: 20px;
+                font-weight: 700;
+                font-size: 28px;
+            }
+
+            .content-box p {
+                color: var(--text-color);
+                font-size: 18px;
+                line-height: 1.8;
+            }
+
+        /* Footer Styles */
+        footer {
+            background: var(--gradient);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: auto;
+            border-radius: 15px;
+            width:100%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 600;
+        }
+
+            .footer-column h3::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 50px;
+                height: 3px;
+                background-color: white;
+                border-radius: 3px;
+            }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+            .footer-column ul li a {
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+            }
+
+                .footer-column ul li a:hover {
+                    color: var(--light-color);
+                    transform: translateX(-5px);
+                }
+
+                .footer-column ul li a i {
+                    margin-left: 8px;
+                    font-size: 14px;
+                }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+            .social-links a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background-color: rgba(255, 255, 255, 0.15);
+                border-radius: 50%;
+                transition: all 0.3s ease;
+            }
+
+                .social-links a:hover {
+                    background-color: white;
+                    color: var(--primary-color);
+                    transform: translateY(-5px);
+                }
+
+        .newsletter p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .newsletter-form {
+            display: flex;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .newsletter-form input {
+                flex: 1;
+                padding: 12px 15px;
+                border: none;
+                outline: none;
+                font-weight: 500;
+            }
+
+            .newsletter-form button {
+                background-color: white;
+                color: var(--primary-color);
+                border: none;
+                padding: 0 20px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 600;
+            }
+
+                .newsletter-form button:hover {
+                    background-color: var(--light-color);
+                }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        /* Animation for elements */
+        keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .logo, .auth-buttons, .main-menu, .search-bar, .footer-column {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+            .footer-column:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .footer-column:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .footer-column:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+            .footer-column:nth-child(4) {
+                animation-delay: 0.4s;
+            }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        keyframes float {
+            0%, 100%
+
+        {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+
+        }
+
+        /* Responsive Styles */
+        media (max-width: 992px) {
+            .footer-content
+
+        {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        }
+
+        media (max-width: 768px) {
+            .mobile-toggle
+
+        {
+            display: block;
+        }
+
+        .main-menu {
+            position: fixed;
+            top: 80px;
+            right: -100%;
+            width: 80%;
+            height: calc(100vh - 80px);
+            background: var(--gradient);
+            flex-direction: column;
+            transition: right 0.4s ease;
+            z-index: 1000;
+            padding-top: 20px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+            .main-menu.active {
+                right: 0;
+            }
+
+        .search-bar {
+            margin-top: 15px;
+            width: 100%;
+            order: -1;
+        }
+
+            .search-bar input {
+                width: 100%;
+            }
+
+        .nav-container {
+            flex-wrap: wrap;
+        }
+
+        .categories-dropdown {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            box-shadow: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: none;
+            border-radius: 0;
+            margin-top: 10px;
+        }
+
+        .categories-menu:hover .categories-dropdown,
+        .categories-menu.active .categories-dropdown {
+            display: block;
+        }
+
+        .categories-dropdown a {
+            padding-right: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .top-bar {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .auth-buttons {
+            width: 100%;
+            justify-content: center;
+        }
+
+        }
+
+        media (max-width: 576px) {
+            .footer-content
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        .content-box {
+            padding: 25px;
+        }
+
+            .content-box h2 {
+                font-size: 24px;
+            }
+
+            .content-box p {
+                font-size: 16px;
+            }
+
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating background elements -->
+    <div class="floating-element" style="width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="width: 60px; height: 60px; top: 70%; right: 10%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="width: 100px; height: 100px; bottom: 20%; left: 8%; animation-delay: 4s;"></div>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App.EndPoints.MVC.Blog_HW21</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <div class="container">
+            <div class="top-bar">
+                <div class="logo">
+                    <i class="fas fa-pen-nib"></i>
+                    <h1>پلتفرم <span>نویسندگان</span></h1>
+                </div>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-login">ورود به حساب</a>
+                    <a href="#" class="btn btn-signup">عضویت رایگان</a>
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <div class="container nav-container">
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <ul class="main-menu">
+                    <li><a href="#"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                    <li class="categories-menu">
+                        <a href="#"><i class="fas fa-th-large"></i> دسته بندی ها <i class="fas fa-chevron-down"></i></a>
+                        <div class="categories-dropdown">
+                            <a href="#"><i class="fas fa-book"></i> داستان کوتاه</a>
+                            <a href="#"><i class="fas fa-scroll"></i> رمان</a>
+                            <a href="#"><i class="fas fa-feather"></i> شعر</a>
+                            <a href="#"><i class="fas fa-file-alt"></i> مقاله</a>
+                            <a href="#"><i class="fas fa-star"></i> نقد و بررسی</a>
+                            <a href="#"><i class="fas fa-memory"></i> خاطره نویسی</a>
+                        </div>
+                    </li>
+                    <li><a href="#"><i class="fas fa-crown"></i> نویسندگان برتر</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> مسابقات</a></li>
+                    <li><a href="#"><i class="fas fa-info-circle"></i> درباره ما</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> تماس با ما</a></li>
+                </ul>
+
+                <div class="search-bar">
+                    <input type="text" placeholder="جستجو در بین آثار...">
+                    <button><i class="fas fa-search"></i></button>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div >
+        <main>
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer >
         <div class="container">
-            &copy; 2025 - App.EndPoints.MVC.Blog_HW21 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>درباره ما</h3>
+                    <p>پلتفرم نویسندگان فضایی امن و الهام‌بخش برای خلق و انتشار آثار ادبی است. ما به نویسندگان کمک می‌کنیم تا استعدادهای خود را کشف و پرورش دهند.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>لینک های سریع</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> صفحه اصلی</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> درباره ما</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> قوانین و مقررات</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> حریم خصوصی</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> تماس با ما</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>دسته بندی ها</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> داستان کوتاه</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> رمان</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> شعر</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> مقاله</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-left"></i> نقد و بررسی</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>خبرنامه</h3>
+                    <div class="newsletter">
+                        <p>برای دریافت جدیدترین مطالب، مسابقات و اخبار سایت در خبرنامه ما عضو شوید.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="ایمیل خود را وارد کنید">
+                            <button type="submit">عضویت</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>تمامی حقوق مادی و معنوی این سایت برای پلتفرم نویسندگان محفوظ می‌باشد. © ۱۴۰۲</p>
+            </div>
         </div>
+    
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

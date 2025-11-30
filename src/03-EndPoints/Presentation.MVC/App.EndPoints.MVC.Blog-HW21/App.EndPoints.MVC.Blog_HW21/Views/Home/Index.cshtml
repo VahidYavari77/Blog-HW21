@@ -1,8 +1,529 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/Index.css" />
+}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه اصلی - پلتفرم نویسندگان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-element" style="width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="width: 60px; height: 60px; top: 70%; right: 10%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="width: 100px; height: 100px; bottom: 20%; left: 8%; animation-delay: 4s;"></div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- Categories Box -->
+                <div class="box">
+                    <h2 class="box-title">
+                        <i class="fas fa-th-large"></i>
+                        دسته بندی ها
+                    </h2>
+                    <ul class="categories-list">
+                        <li class="category-item">
+                            <span>داستان کوتاه</span>
+                            <span class="category-count">۱۲۴</span>
+                        </li>
+                        <li class="category-item">
+                            <span>رمان</span>
+                            <span class="category-count">۸۷</span>
+                        </li>
+                        <li class="category-item">
+                            <span>شعر</span>
+                            <span class="category-count">۱۵۶</span>
+                        </li>
+                        <li class="category-item">
+                            <span>مقاله</span>
+                            <span class="category-count">۹۳</span>
+                        </li>
+                        <li class="category-item">
+                            <span>نقد و بررسی</span>
+                            <span class="category-count">۶۷</span>
+                        </li>
+                        <li class="category-item">
+                            <span>خاطره نویسی</span>
+                            <span class="category-count">۴۵</span>
+                        </li>
+                        <li class="category-item">
+                            <span>داستان علمی</span>
+                            <span class="category-count">۳۸</span>
+                        </li>
+                        <li class="category-item">
+                            <span>طنز</span>
+                            <span class="category-count">۵۲</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Top Authors Box -->
+                <div class="box">
+                    <h2 class="box-title">
+                        <i class="fas fa-crown"></i>
+                        نویسندگان برتر
+                    </h2>
+                    <div class="authors-list">
+                        <div class="author-item">
+                            <div class="author-avatar">م.ح</div>
+                            <div class="author-info">
+                                <div class="author-name">محمد حسینی</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۴۵ پست</span>
+                                    <span>۲.۱k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">ف.ر</div>
+                            <div class="author-info">
+                                <div class="author-name">فاطمه رضایی</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۳۸ پست</span>
+                                    <span>۱.۸k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">ع.ک</div>
+                            <div class="author-info">
+                                <div class="author-name">علی کریمی</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۳۲ پست</span>
+                                    <span>۱.۵k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">ز.ن</div>
+                            <div class="author-info">
+                                <div class="author-name">زهرا نوری</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۲۹ پست</span>
+                                    <span>۱.۳k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">م.ع</div>
+                            <div class="author-info">
+                                <div class="author-name">مرتضی علیزاده</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۲۷ پست</span>
+                                    <span>۱.۱k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="posts-grid">
+                <!-- Post 1 -->
+                <article class="post-card">
+                    <div class="post-content">
+                        <div class="post-image">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="post-details">
+                            <div style="display: flex;">
+                                <span class="post-category">نام دسته بندی : داستان کوتاه</span>
+                                <pre style="color: #00BFFF;">_____________</pre>
+                                <span class="post-category">نام نویسنده : وحید یاوری </span>
+                            </div>
+
+                            <h3 class="post-title">پروانه‌های سفید: داستانی از امید و تحول</h3>
+                            <p class="post-excerpt">
+                                در دل جنگلی انبوه، جایی که نور خورشید به سختی از میان شاخه‌ها می‌گذشت، دخترکی زندگی می‌کرد که رویای دیدن پروانه‌های سفید را در سر می‌پروراند. این داستان، سفر او به سوی کشف حقیقت زندگی است...
+                            </p>
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i>
+                                    <span>۲ روز پیش</span>
+                                </div>
+                            </div>
+                            <div class="post-actions">
+                                <button class="btn btn-primary" onclick="toggleAddComment(this)">
+                                    <i class="far fa-comment"></i>
+                                    ثبت نظر
+                                </button>
+                                <button class="btn btn-secondary" onclick="toggleComments(this)">
+                                    <i class="far fa-eye"></i>
+                                    نمایش نظرات
+                                </button>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-book-reader"></i>
+                                    ادامه مطلب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section" id="comments-1">
+                        <div class="comments-container">
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span class="comment-author">محمد احمدی</span>
+                                    <span class="comment-date">۱۴۰۲/۱۰/۱۵ - ۱ روز پیش</span>
+                                </div>
+                                <div class="comment-rating">
+                                    <div class="rating-value">امتیاز: ۴.۵</div>
+                                    <div class="rating">
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star-half-alt active"></i>
+                                    </div>
+                                </div>
+                                <p class="comment-text">
+                                    داستان بسیار زیبا و پرمعنی بود. شخصیت پردازی عالی و پایان بندی تاثیرگذار داشت. نمادپردازی پروانه‌ها بسیار هنرمندانه انجام شده بود.
+                                </p>
+                            </div>
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span class="comment-author">سارا محمدی</span>
+                                    <span class="comment-date">۱۴۰۲/۱۰/۱۴ - ۲ روز پیش</span>
+                                </div>
+                                <div class="comment-rating">
+                                    <div class="rating-value">امتیاز: ۵</div>
+                                    <div class="rating">
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                    </div>
+                                </div>
+                                <p class="comment-text">
+                                    از خواندن این داستان لذت بردم. نویسنده توانسته به خوبی احساسات را منتقل کند. پایان بندی غیرمنتظره ولی بسیار زیبا بود.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Comment Form -->
+                    <div class="add-comment-section" id="add-comment-1">
+                        <form class="comment-form" onsubmit="submitComment(event, this)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName-1">نام</label>
+                                    <input type="text" id="firstName-1" class="form-control" placeholder="نام خود را وارد کنید" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName-1">نام خانوادگی</label>
+                                    <input type="text" id="lastName-1" class="form-control" placeholder="نام خانوادگی خود را وارد کنید" required>
+                                </div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="email-1">ایمیل</label>
+                                <input type="email" id="email-1" class="form-control" placeholder="ایمیل خود را وارد کنید" required>
+                            </div>
+                            <div class="rating-form-group">
+                                <label class="rating-label">امتیاز دهید</label>
+                                <div class="rating" id="rating-1" style="  justify-content: center;">
+                                    <i class="far fa-star star" data-rating="1"></i>
+                                    <i class="far fa-star star" data-rating="2"></i>
+                                    <i class="far fa-star star" data-rating="3"></i>
+                                    <i class="far fa-star star" data-rating="4"></i>
+                                    <i class="far fa-star star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" id="rating-value-1" value="0">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="comment-1">نظر شما</label>
+                                <textarea id="comment-1" class="form-control" placeholder="نظر خود را در مورد این پست بنویسید..." required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="cancelComment(this)">انصراف</button>
+                                <button type="submit" class="btn btn-primary">ثبت نظر</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="post-card">
+                    <div class="post-content">
+                        <div class="post-image">
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                        <div class="post-details">
+                            <span class="post-category">شعر</span>
+                            <h3 class="post-title">در آغوش باد: مجموعه‌ای از اشعار عاشقانه</h3>
+                            <p class="post-excerpt">
+                                باد می‌وزد و برگ‌های خزان می‌رقصند،
+                                دل من هم با تو می‌رقصد در این هوای پاییزی.
+                                اشعار این مجموعه، روایتگر عشقی است که در دل طبیعت جریان دارد...
+                            </p>
+                            <div class="post-meta">
+                                <div class="post-date">
+                                    <i class="far fa-calendar"></i>
+                                    <span>۵ روز پیش</span>
+                                </div>
+                            </div>
+                            <div class="post-actions">
+                                <button class="btn btn-primary" onclick="toggleAddComment(this)">
+                                    <i class="far fa-comment"></i>
+                                    ثبت نظر
+                                </button>
+                                <button class="btn btn-secondary" onclick="toggleComments(this)">
+                                    <i class="far fa-eye"></i>
+                                    نمایش نظرات
+                                </button>
+                                <button class="btn btn-outline">
+                                    <i class="fas fa-book-reader"></i>
+                                    ادامه مطلب
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments Section -->
+                    <div class="comments-section" id="comments-2">
+                        <div class="comments-container">
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <span class="comment-author">رضا کریمی</span>
+                                    <span class="comment-date">۱۴۰۲/۱۰/۱۲ - ۳ روز پیش</span>
+                                </div>
+                                <div class="comment-rating">
+                                    <div class="rating-value">امتیاز: ۴</div>
+                                    <div class="rating">
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="fas fa-star active"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <p class="comment-text">
+                                    اشعار بسیار احساسی و زیبا بودند. به خصوص شعر "در آغوش باد" بسیار تاثیرگذار بود. زبان شاعر ساده ولی عمیق است.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add Comment Form -->
+                    <div class="add-comment-section" id="add-comment-2">
+                        <form class="comment-form" onsubmit="submitComment(event, this)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName-2">نام</label>
+                                    <input type="text" id="firstName-2" class="form-control" placeholder="نام خود را وارد کنید" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName-2">نام خانوادگی</label>
+                                    <input type="text" id="lastName-2" class="form-control" placeholder="نام خانوادگی خود را وارد کنید" required>
+                                </div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="email-2">ایمیل</label>
+                                <input type="email" id="email-2" class="form-control" placeholder="ایمیل خود را وارد کنید" required>
+                            </div>
+                            <div class="rating-form-group">
+                                <label class="rating-label">امتیاز دهید</label>
+                                <div class="rating" id="rating-2">
+                                    <i class="far fa-star star" data-rating="1"></i>
+                                    <i class="far fa-star star" data-rating="2"></i>
+                                    <i class="far fa-star star" data-rating="3"></i>
+                                    <i class="far fa-star star" data-rating="4"></i>
+                                    <i class="far fa-star star" data-rating="5"></i>
+                                </div>
+                                <input type="hidden" id="rating-value-2" value="0">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="comment-2">نظر شما</label>
+                                <textarea id="comment-2" class="form-control" placeholder="نظر خود را در مورد این پست بنویسید..." required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="cancelComment(this)">انصراف</button>
+                                <button type="submit" class="btn btn-primary">ثبت نظر</button>
+                            </div>
+                        </form>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize star ratings
+        document.querySelectorAll('.rating').forEach(rating => {
+            const stars = rating.querySelectorAll('.star');
+            const hiddenInput = document.getElementById(`rating-value-${rating.id.split('-')[1]}`);
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const ratingValue = this.getAttribute('data-rating');
+                    hiddenInput.value = ratingValue;
+
+                    // Update stars appearance
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= ratingValue) {
+                            s.classList.remove('far');
+                            s.classList.add('fas', 'active');
+                        } else {
+                            s.classList.remove('fas', 'active');
+                            s.classList.add('far');
+                        }
+                    });
+                });
+
+                // Hover effect
+                star.addEventListener('mouseenter', function() {
+                    const hoverValue = this.getAttribute('data-rating');
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= hoverValue) {
+                            s.style.color = '#ffc107';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    const currentValue = hiddenInput.value;
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= currentValue) {
+                            s.style.color = '#ffc107';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Toggle comments section
+        function toggleComments(button) {
+            const postCard = button.closest('.post-card');
+            const commentsSection = postCard.querySelector('.comments-section');
+            const addCommentSection = postCard.querySelector('.add-comment-section');
+
+            // Close add comment section if open
+            addCommentSection.classList.remove('active');
+
+            // Toggle comments section
+            commentsSection.classList.toggle('active');
+
+            // Update button text
+            if (commentsSection.classList.contains('active')) {
+                button.innerHTML = '<i class="far fa-eye-slash"></i> بستن نظرات';
+            } else {
+                button.innerHTML = '<i class="far fa-eye"></i> نمایش نظرات';
+            }
+        }
+
+        // Toggle add comment form
+        function toggleAddComment(button) {
+            const postCard = button.closest('.post-card');
+            const addCommentSection = postCard.querySelector('.add-comment-section');
+            const commentsSection = postCard.querySelector('.comments-section');
+
+            // Close comments section if open
+            commentsSection.classList.remove('active');
+
+            // Update comments button text
+            const commentsButton = postCard.querySelector('.btn-secondary');
+            commentsButton.innerHTML = '<i class="far fa-eye"></i> نمایش نظرات';
+
+            // Toggle add comment section
+            addCommentSection.classList.toggle('active');
+        }
+
+        // Cancel comment
+        function cancelComment(button) {
+            const addCommentSection = button.closest('.add-comment-section');
+            addCommentSection.classList.remove('active');
+
+            // Reset form
+            const form = addCommentSection.querySelector('form');
+            form.reset();
+
+            // Reset stars
+            const ratingId = addCommentSection.id.split('-')[2];
+            const stars = document.querySelectorAll(`#rating-${ratingId} .star`);
+            stars.forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+                star.style.color = '#ddd';
+            });
+            document.getElementById(`rating-value-${ratingId}`).value = '0';
+        }
+
+        // Submit comment
+        function submitComment(event, form) {
+            event.preventDefault();
+            const postCard = form.closest('.post-card');
+            const addCommentSection = postCard.querySelector('.add-comment-section');
+            const ratingId = addCommentSection.id.split('-')[2];
+            const ratingValue = document.getElementById(`rating-value-${ratingId}`).value;
+
+            if (ratingValue === '0') {
+                alert('لطفا امتیاز دهید');
+                return;
+            }
+
+            // Here you would typically send the data to a server
+            const currentDate = new Date().toLocaleDateString('fa-IR');
+            alert(`نظر شما با امتیاز ${ratingValue} ستاره ثبت شد!\nتاریخ: ${currentDate}`);
+
+            // Reset form and close section
+            form.reset();
+            addCommentSection.classList.remove('active');
+
+            // Reset stars
+            const stars = document.querySelectorAll(`#rating-${ratingId} .star`);
+            stars.forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+                star.style.color = '#ddd';
+            });
+            document.getElementById(`rating-value-${ratingId}`).value = '0';
+        }
+
+        // Add interactivity to continue reading buttons
+        document.querySelectorAll('.btn-outline').forEach(button => {
+            button.addEventListener('click', function() {
+                const postTitle = this.closest('.post-card').querySelector('.post-title').textContent;
+                alert(`پست "${postTitle}" به طور کامل نمایش داده شد`);
+            });
+        });
+
+        // Add hover effects to categories
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(-5px)';
+            });
+
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Add click effect to author items
+        document.querySelectorAll('.author-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const authorName = this.querySelector('.author-name').textContent;
+                alert(`پروفایل ${authorName} باز شد`);
+            });
+        });
+    </script>
+</body>
+</html>
