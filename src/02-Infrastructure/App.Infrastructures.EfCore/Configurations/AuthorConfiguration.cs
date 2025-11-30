@@ -14,9 +14,12 @@ namespace App.Infrastructures.EfCore.Configurations
     {
         public void Configure(EntityTypeBuilder<Author> builder)
         {
+            builder.ToTable("Authors").HasKey(p => p.Id);
+
+            builder.HasMany(a => a.Posts).WithOne(p => p.Author).HasForeignKey(p => p.AuthorId);
+            builder.HasMany(a => a.Categories).WithOne(c => c.Author).HasForeignKey(c => c.AuthorId);
 
 
-          
         }
     }
 }

@@ -14,7 +14,17 @@ namespace App.Infrastructures.EfCore.Configurations
     {
         public void Configure(EntityTypeBuilder<Post> builder)
         {
-            
+            builder.ToTable("Posts").HasKey(p => p.Id);
+            builder.HasMany(p => p.Comments).WithOne(c => c.Post)
+                .HasForeignKey(p => p.PostId);
+            builder.HasOne(p => p.Author).WithMany(a => a.Posts)
+                .HasForeignKey(p => p.AuthorId);
+            builder.HasOne(p => p.Category).WithMany(c => c.Posts)
+               .HasForeignKey(p => p.CategoryId);
+            builder.Property(p => p.Text)
+                 .IsRequired()
+                 .HasMaxLength(4000)
+                 .HasColumnType("nvarchar(4000)");
         }
     }
 }

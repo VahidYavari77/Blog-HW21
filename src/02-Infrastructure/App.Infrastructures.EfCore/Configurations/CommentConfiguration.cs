@@ -12,10 +12,17 @@ namespace App.Infrastructures.EfCore.Configurations
 {
     public class CommentConfiguration : IEntityTypeConfiguration<Comment>
     {
-       
+
 
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
+            builder.ToTable("Comments").HasKey(c => c.Id);
+            builder.HasOne(c => c.Post).WithMany(p => p.Comments)
+                .HasForeignKey(c => c.PostId).OnDelete(DeleteBehavior.Cascade);
+            builder.Property(c => c.CommentText)
+                 .IsRequired()
+                 .HasMaxLength(2000)
+                 .HasColumnType("nvarchar(2000)");
 
         }
     }
