@@ -18,11 +18,11 @@ namespace App.Infrastructures.EfCore.Configurations
         {
             builder.ToTable("Comments").HasKey(c => c.Id);
             builder.HasOne(c => c.Post).WithMany(p => p.Comments)
-                .HasForeignKey(c => c.PostId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.PostId);
             builder.Property(c => c.CommentText)
                  .IsRequired()
-                 .HasMaxLength(2000)
-                 .HasColumnType("nvarchar(2000)");
+                 .HasMaxLength(2000);
+                 
 
         }
     }

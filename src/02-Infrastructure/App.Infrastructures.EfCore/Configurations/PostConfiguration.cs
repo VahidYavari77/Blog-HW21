@@ -18,13 +18,13 @@ namespace App.Infrastructures.EfCore.Configurations
             builder.HasMany(p => p.Comments).WithOne(c => c.Post)
                 .HasForeignKey(p => p.PostId);
             builder.HasOne(p => p.Author).WithMany(a => a.Posts)
-                .HasForeignKey(p => p.AuthorId);
+                .HasForeignKey(p => p.AuthorId).OnDelete(DeleteBehavior.Restrict); ;
             builder.HasOne(p => p.Category).WithMany(c => c.Posts)
-               .HasForeignKey(p => p.CategoryId);
+               .HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Restrict); ;
             builder.Property(p => p.Text)
                  .IsRequired()
-                 .HasMaxLength(4000)
-                 .HasColumnType("nvarchar(4000)");
+                 .HasMaxLength(4000);
+                 
         }
     }
 }
