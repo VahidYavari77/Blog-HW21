@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Domain.Core.CategoryAgg.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace App.Domain.Core.CategoryAgg.Contracts
 {
    public interface ICategoryRepo
     {
+        public bool AddCategory(Category category);
+        
     }
 }

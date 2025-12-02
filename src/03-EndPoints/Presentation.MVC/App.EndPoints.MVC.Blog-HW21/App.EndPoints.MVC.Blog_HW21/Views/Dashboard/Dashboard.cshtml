@@ -1,10 +1,33 @@
-﻿@{
-   
+﻿@using App.EndPoints.MVC.Blog_HW21.Models.Category;
+@using App.Domain.Core.CategoryAgg.Entities;
+@using App.EndPoints.MVC.Blog_HW21.Models.Dashboard
+@{
     Layout = "~/Views/Shared/DashbordLayout.cshtml";
+    var categories = ViewBag.Catrgories as List<Category>;
+    var category = ViewBag.category as CategoryViewModel;
+    var header = ViewBag.Heder as HederDashboardViewModel;
+
+    // اگر مقدار null بود یعنی تبدیل موفق نبود یا مقدار وجود نداشت
+    if (category == null)
+    {
+        // نمونه جدید می‌سازیم تا به خصوصیاتش دسترسی داشته باشیم
+        category = new CategoryViewModel
+                {
+                    Title = "عنوان پیش‌فرض",
+                    Description = "توضیح پیش‌فرض"
+                };
+    }
+    // @if (TempData["SuccessMessage"] != null)
+    // {
+    //     <script>
+    //         alert('@TempData["SuccessMessage"]');
+    //     </script>
+    // }
+
 
 }
 @section Styles {
-    <link rel="stylesheet" href="~/css/Dashboard.css" />
+<link rel="stylesheet" href="~/css/Dashboard.css" />
 }
 
 <!-- Floating background elements -->
@@ -15,21 +38,25 @@
 <div class="container">
     <!-- Admin Header -->
     <header class="admin-header">
+        <a  style="text-decoration:none" asp-action="Logout"> <button type="submit" class="btn btn-danger btn-sm">
+                <i class="bi bi-box-arrow-right"></i> خروج
+            </button>
+        </a>
         <div class="author-avatar">م.ح</div>
         <div class="author-info">
-            <h1 class="author-name">محمد حسینی</h1>
+            <h1 class="author-name"> @header.FullName</h1>
             <div class="author-stats">
                 <div class="stat-item">
                     <i class="fas fa-file-alt"></i>
-                    <span>تعداد پست‌ها: <span class="stat-number">۴۵</span></span>
+                    <span>تعداد پست‌ها: <span class="stat-number">@header.CountPost</span></span>
                 </div>
                 <div class="stat-item">
                     <i class="fas fa-th-large"></i>
-                    <span>دسته‌بندی‌ها: <span class="stat-number">۸</span></span>
+                    <span>دسته‌بندی‌ها: <span class="stat-number">@header.CountCategory</span></span>
                 </div>
                 <div class="stat-item">
                     <i class="fas fa-comments"></i>
-                    <span>نظرات: <span class="stat-number">۱۲۴</span></span>
+                    <span>نظرات: <span class="stat-number">@header.CountComment</span></span>
                 </div>
             </div>
         </div>
@@ -62,12 +89,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach(var item in categories)
+                        {
                         <tr>
                             <td>
-                                <div class="category-name">داستان کوتاه</div>
+                                    <div class="category-name">@item.Name </div>
                             </td>
                             <td>
-                                <span class="category-count">۲۴ پست</span>
+                                    <span class="category-count">@item.Posts.Count</span>
                             </td>
                             <td>
                                 <div class="actions">
@@ -82,66 +111,67 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="category-name">شعر</div>
-                            </td>
-                            <td>
-                                <span class="category-count">۱۸ پست</span>
-                            </td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn btn-warning btn-sm" onclick="editCategory(2)">
-                                        <i class="fas fa-edit"></i>
-                                        ویرایش
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteCategory(2)">
-                                        <i class="fas fa-trash"></i>
-                                        حذف
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="category-name">مقاله</div>
-                            </td>
-                            <td>
-                                <span class="category-count">۱۲ پست</span>
-                            </td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn btn-warning btn-sm" onclick="editCategory(3)">
-                                        <i class="fas fa-edit"></i>
-                                        ویرایش
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteCategory(3)">
-                                        <i class="fas fa-trash"></i>
-                                        حذف
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="category-name">نقد و بررسی</div>
-                            </td>
-                            <td>
-                                <span class="category-count">۸ پست</span>
-                            </td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn btn-warning btn-sm" onclick="editCategory(4)">
-                                        <i class="fas fa-edit"></i>
-                                        ویرایش
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteCategory(4)">
-                                        <i class="fas fa-trash"></i>
-                                        حذف
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        }
+                        @* <tr> *@
+                        @*     <td> *@
+                        @*         <div class="category-name">شعر</div> *@
+                        @*     </td> *@
+                        @*     <td> *@
+                        @*         <span class="category-count">۱۸ پست</span> *@
+                        @*     </td> *@
+                        @*     <td> *@
+                        @*         <div class="actions"> *@
+                        @*             <button class="btn btn-warning btn-sm" onclick="editCategory(2)"> *@
+                        @*                 <i class="fas fa-edit"></i> *@
+                        @*                 ویرایش *@
+                        @*             </button> *@
+                        @*             <button class="btn btn-danger btn-sm" onclick="deleteCategory(2)"> *@
+                        @*                 <i class="fas fa-trash"></i> *@
+                        @*                 حذف *@
+                        @*             </button> *@
+                        @*         </div> *@
+                        @*     </td> *@
+                        @* </tr> *@
+                        @* <tr> *@
+                        @*     <td> *@
+                        @*         <div class="category-name">مقاله</div> *@
+                        @*     </td> *@
+                        @*     <td> *@
+                        @*         <span class="category-count">۱۲ پست</span> *@
+                        @*     </td> *@
+                        @*     <td> *@
+                        @*         <div class="actions"> *@
+                        @*             <button class="btn btn-warning btn-sm" onclick="editCategory(3)"> *@
+                        @*                 <i class="fas fa-edit"></i> *@
+                        @*                 ویرایش *@
+                        @*             </button> *@
+                        @*             <button class="btn btn-danger btn-sm" onclick="deleteCategory(3)"> *@
+                        @*                 <i class="fas fa-trash"></i> *@
+                        @*                 حذف *@
+                        @*             </button> *@
+                        @*         </div> *@
+                        @*     </td> *@
+                        @* </tr> *@
+                        @* <tr> *@
+                        @*     <td> *@
+                        @*         <div class="category-name">نقد و بررسی</div> *@
+                        @*     </td> *@
+                        @*     <td> *@
+                        @*         <span class="category-count">۸ پست</span> *@
+                        @*     </td> *@
+                        @*     <td> *@
+                        @*         <div class="actions"> *@
+                        @*             <button class="btn btn-warning btn-sm" onclick="editCategory(4)"> *@
+                        @*                 <i class="fas fa-edit"></i> *@
+                        @*                 ویرایش *@
+                        @*             </button> *@
+                        @*             <button class="btn btn-danger btn-sm" onclick="deleteCategory(4)"> *@
+                        @*                 <i class="fas fa-trash"></i> *@
+                        @*                 حذف *@
+                        @*             </button> *@
+                        @*         </div> *@
+                        @*     </td> *@
+                        @* </tr> *@
                     </tbody>
                 </table>
             </div>
@@ -316,15 +346,17 @@
             <h3 class="modal-title" id="categoryModalTitle">ایجاد دسته‌بندی جدید</h3>
             <button class="close-modal" onclick="closeCategoryModal()">&times;</button>
         </div>
-        <form id="categoryForm">
+        <form id="categoryForm" method="post" asp-action="CreateCategories">
+            <label>@ViewBag.Massage‌</label>
+            
             <div class="form-group">
                 <label for="categoryName">نام دسته‌بندی</label>
-                <input type="text" id="categoryName" class="form-control" placeholder="نام دسته‌بندی را وارد کنید" required>
+                <input type="text" id="categoryName" name="Title" value=" @category.Title" class="form-control" placeholder="نام دسته‌بندی را وارد کنید" required>
             </div>
 
             <div class="form-group">
                 <label for="categoryDescription">توضیحات</label>
-                <textarea id="categoryDescription" class="form-control" placeholder="توضیحات دسته‌بندی را وارد کنید"></textarea>
+                <textarea id="categoryDescription" name="Description" value=" @category.Description" class="form-control" placeholder="توضیحات دسته‌بندی را وارد کنید"></textarea>
             </div>
             <div class="form-actions">
                 <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">انصراف</button>
@@ -341,25 +373,34 @@
             <h3 class="modal-title" id="postModalTitle">ایجاد پست جدید</h3>
             <button class="close-modal" onclick="closePostModal()">&times;</button>
         </div>
+
         <form id="postForm" enctype="multipart/form-data" method="post">
-            <div class="form-group">
-                <label for="postTitle">عنوان پست</label>
-                <input type="text" id="postTitle" class="form-control" placeholder="عنوان پست را وارد کنید" required>
-            </div>
-            <div class="form-group">
-                <label for="postTitle">آپلود عکس با فرمت   Max-size = 2mb ----- JPG/PNG </label>
-                <input type="file" accept=".jpg,.jpeg,.png" max-size="2097152">
-            </div>
-            <div class="form-group">
-                <label for="postCategory">دسته‌بندی</label>
-                <select id="postCategory" class="form-control" required>
-                    <option value="">انتخاب دسته‌بندی</option>
-                    <option value="1">داستان کوتاه</option>
-                    <option value="2">شعر</option>
-                    <option value="3">مقاله</option>
-                    <option value="4">نقد و بررسی</option>
-                </select>
-            </div>
+          <div style="display:flex;flex-direction:row ;justify-content:space-between;">
+                <div style="display:flex;flex-direction:column; width:450px;padding-left:5px">
+                    <div class="form-group">
+                        <label for="postTitle">عنوان پست</label>
+                        <input type="text" id="postTitle" class="form-control" placeholder="عنوان پست را وارد کنید" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageInput">آپلود عکس با فرمت   Max-size = 2mb ----- JPG/PNG </label>
+                        <input type="file" id="imageInput" accept=".jpg,.jpeg,.png" max-size="2097152">
+                    </div>
+                    <div class="form-group">
+                        <label for="postCategory">دسته‌بندی</label>
+                        <select id="postCategory" class="form-control" required>
+                            <option value="">انتخاب دسته‌بندی</option>
+                            <option value="1">داستان کوتاه</option>
+                            <option value="2">شعر</option>
+                            <option value="3">مقاله</option>
+                            <option value="4">نقد و بررسی</option>
+                        </select>
+                    </div>
+              </div>
+              
+                <div class="form-group" style="width:450px;padding:5px">
+                    <img id="imagePreview" src="#" alt="Preview Image" style="display:none; width:450px;height:256px; border-radius:15px" />
+                </div>
+          </div>
             <div class="form-group">
                 <label for="postContent">محتوا</label>
                 <textarea id="postContent" class="form-control" placeholder="محتویات پست را وارد کنید" required></textarea>
@@ -373,6 +414,10 @@
 </div>
 
 <script>
+       
+
+    
+   
     // Category Modal Functions
     function openCategoryModal() {
         document.getElementById('categoryModal').classList.add('active');
@@ -380,10 +425,28 @@
         document.getElementById('categoryForm').reset();
 
     }
+     
 
     function closeCategoryModal() {
         document.getElementById('categoryModal').classList.remove('active');
     }
+    // ________________________________
+       document.addEventListener("DOMContentLoaded", function() {
+      var showModalRaw = '@(ViewBag.ShowCategoryModal ?? "false")';
+      var showModal = (showModalRaw.toLowerCase() === 'true');
+
+      if (showModal) {
+        openCategoryModal();
+      }
+    });
+
+    function openCategoryModal() {
+      console.log("openCategoryModal called");
+      document.getElementById('categoryModal').classList.add('active');
+      document.getElementById('categoryModalTitle').textContent = 'ایجاد دسته‌بندی جدید';
+      document.getElementById('categoryForm').reset();
+    }
+    // ---------------------------------
 
     function editCategory(id) {
         document.getElementById('categoryModal').classList.add('active');
@@ -430,12 +493,12 @@
     }
 
     // Form Submissions
-    document.getElementById('categoryForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const categoryName = document.getElementById('categoryName').value;
-        alert(`دسته‌بندی "${categoryName}" با موفقیت ذخیره شد`);
-        closeCategoryModal();
-    });
+    // document.getElementById('categoryForm').addEventListener('submit', function(e) {
+    //     e.preventDefault();
+    //     const categoryName = document.getElementById('categoryName').value;
+    //     alert(`دسته‌بندی "${categoryName}" با موفقیت ذخیره شد`);
+    //     closeCategoryModal();
+    // });
 
     document.getElementById('postForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -450,4 +513,25 @@
             e.target.classList.remove('active');
         }
     });
+    //image preview
+        const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function() {
+                imagePreview.setAttribute('src', this.result);
+                imagePreview.style.display = 'block';
+            });
+
+            reader.readAsDataURL(file);
+        } else {
+            imagePreview.style.display = 'none';
+            imagePreview.setAttribute('src', '#');
+        }
+    });
+   
 </script>

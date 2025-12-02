@@ -20,4 +20,8 @@
     <ProjectReference Include="..\..\..\..\02-Infrastructure\App.Infrastructures.EfCore\App.Infrastructures.EfCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>

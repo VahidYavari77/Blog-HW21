@@ -591,8 +591,8 @@
                     <h1>پلتفرم <span>نویسندگان</span></h1>
                 </div>
                 <div class="auth-buttons">
-                    <a href="#" class="btn btn-login">ورود به حساب</a>
-                    <a href="#" class="btn btn-signup">عضویت رایگان</a>
+                    <a asp-controller="Author" asp-action="Login" class="btn btn-login">ورود به حساب</a>
+                    <a asp-controller="Author" asp-action="Registration" class="btn btn-signup">عضویت رایگان</a>
                 </div>
             </div>
         </div>
@@ -604,7 +604,7 @@
                 </div>
 
                 <ul class="main-menu">
-                    <li><a href="#"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                    <li><a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> صفحه اصلی</a></li>
                     <li class="categories-menu">
                         <a href="#"><i class="fas fa-th-large"></i> دسته بندی ها <i class="fas fa-chevron-down"></i></a>
                         <div class="categories-dropdown">

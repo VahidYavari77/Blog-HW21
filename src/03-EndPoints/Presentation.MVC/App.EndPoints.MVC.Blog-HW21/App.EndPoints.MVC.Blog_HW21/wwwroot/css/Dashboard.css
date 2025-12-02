@@ -282,8 +282,8 @@ tr:hover {
     background: white;
     border-radius: 15px;
     padding: 30px;
-    width: 90%;
-    max-width: 500px;
+    width: 960px;
+    max-width: 960px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
