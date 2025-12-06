@@ -583,52 +583,7 @@
     <div class="floating-element" style="width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s;"></div>
     <div class="floating-element" style="width: 60px; height: 60px; top: 70%; right: 10%; animation-delay: 2s;"></div>
     <div class="floating-element" style="width: 100px; height: 100px; bottom: 20%; left: 8%; animation-delay: 4s;"></div>
-    <header>
-        <div class="container">
-            <div class="top-bar">
-                <div class="logo">
-                    <i class="fas fa-pen-nib"></i>
-                    <h1>پلتفرم <span>نویسندگان</span></h1>
-                </div>
-                <div class="auth-buttons">
-                    <a asp-controller="Author" asp-action="Login" class="btn btn-login">ورود به حساب</a>
-                    <a asp-controller="Author" asp-action="Registration" class="btn btn-signup">عضویت رایگان</a>
-                </div>
-            </div>
-        </div>
-
-        <nav>
-            <div class="container nav-container">
-                <div class="mobile-toggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-
-                <ul class="main-menu">
-                    <li><a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> صفحه اصلی</a></li>
-                    <li class="categories-menu">
-                        <a href="#"><i class="fas fa-th-large"></i> دسته بندی ها <i class="fas fa-chevron-down"></i></a>
-                        <div class="categories-dropdown">
-                            <a href="#"><i class="fas fa-book"></i> داستان کوتاه</a>
-                            <a href="#"><i class="fas fa-scroll"></i> رمان</a>
-                            <a href="#"><i class="fas fa-feather"></i> شعر</a>
-                            <a href="#"><i class="fas fa-file-alt"></i> مقاله</a>
-                            <a href="#"><i class="fas fa-star"></i> نقد و بررسی</a>
-                            <a href="#"><i class="fas fa-memory"></i> خاطره نویسی</a>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fas fa-crown"></i> نویسندگان برتر</a></li>
-                    <li><a href="#"><i class="fas fa-trophy"></i> مسابقات</a></li>
-                    <li><a href="#"><i class="fas fa-info-circle"></i> درباره ما</a></li>
-                    <li><a href="#"><i class="fas fa-phone"></i> تماس با ما</a></li>
-                </ul>
-
-                <div class="search-bar">
-                    <input type="text" placeholder="جستجو در بین آثار...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </nav>
-    </header>
+    @await Component.InvokeAsync("Header")
     <div >
         <main>
             @RenderBody()

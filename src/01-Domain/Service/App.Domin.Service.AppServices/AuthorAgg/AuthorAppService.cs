@@ -33,6 +33,19 @@ namespace App.Domin.Service.AppServices.AuthorAgg
 
         }
 
+        public Result<AuthorHeaderDto>? GetAuthorHeaderDto(int AuthorId)
+        {
+            var result = authorService.GetAuthorHeaderDto(AuthorId);
+            if (result is not null)
+            {
+               return Result<AuthorHeaderDto>.Success("موفق", result);
+            }
+            else
+            {
+              return  Result<AuthorHeaderDto>.Failure("نویسنده ای با این مشخصات وجود ندارد");
+            }
+        }
+
         public Result<Author> Login(LoginDto loginDto)
         {
             var result = authorService.Login(loginDto);

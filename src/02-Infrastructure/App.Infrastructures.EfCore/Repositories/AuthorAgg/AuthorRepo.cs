@@ -27,11 +27,27 @@ namespace App.Infrastructures.EfCore.Repositories.AuthorAgg
             }
         }
 
+        public AuthorHeaderDto? GetAuthorHeaderDto(int AuthorId)
+        {
+            var author = appDbContext.Authors
+       .Where(a => a.Id == AuthorId)
+       .Select(a => new AuthorHeaderDto
+       {
+           FirstName = a.FirstName,
+           LastName = a.LastName,
+           CountPost = a.Posts.Count,
+           CountCategory = a.Categories.Count,
+           CountComment = a.Posts.SelectMany(p => p.Comments).Count()
+       })
+       .FirstOrDefault();
+
+            return author;
+        }
+
         public Author? Login(LoginDto loginDto)
         {
             var author = appDbContext.Authors
-                .Include(a => a.Categories)
-                    .ThenInclude(p => p.Posts)
+              
                 .FirstOrDefault(a => a.UserName == loginDto.UserName && a.Password == loginDto.Password);
 
             return author; 

@@ -2,6 +2,7 @@
 using App.Domain.Core.CategoryAgg.Entities;
 using App.Domain.Core.CommentAgg.Entities;
 using App.Domain.Core.Utilities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,8 +21,8 @@ namespace App.Domain.Core.PostAgg.Entities
         public string ImgUrl { get; set; }
         public Category Category { get; set; }
         public int CategoryId { get; set; }
-        [NotMapped]
        
+      
         public Author Author { get; set; }
         public int AuthorId { get; set; }
         public List<Comment> Comments { get; set; }

@@ -1,0 +1,528 @@
+﻿@using App.Domain.Core.CommentAgg.Enum
+@using App.EndPoints.MVC.Blog_HW21.Models.Dashboard
+@using App.EndPoints.MVC.Blog_HW21.Models.Post
+@model PostViewModel
+@{
+    
+    Layout = "~/Views/Shared/ManageComments.cshtml";
+    var pendingCount = Model.commentDtos
+        .Where(c => c.OpinionStatus == OpinionStatusEnum.Pending)
+        .Count();
+    var approvedCount = Model.commentDtos
+        .Where(c => c.OpinionStatus == OpinionStatusEnum.Approved)
+        .Count();
+    var rejectedCount = Model.commentDtos
+        .Where(c => c.OpinionStatus == OpinionStatusEnum.Rejected)
+        .Count();
+}
+@section Styles {
+
+<link rel="stylesheet" href="~/css/ManageComments.css" />
+}
+
+<!-- Floating background elements -->
+<div class="floating-element" style="width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+<div class="floating-element" style="width: 60px; height: 60px; top: 70%; right: 10%; animation-delay: 2s;"></div>
+<div class="floating-element" style="width: 100px; height: 100px; bottom: 20%; left: 8%; animation-delay: 4s;"></div>
+
+<div class="container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <h1 class="header-title">مدیریت نظرات پست</h1>
+        <p class="header-subtitle">
+            در این بخش می‌توانید نظرات کاربران درباره پست "@Model.Title" را مدیریت کنید.
+            نظرات را بررسی، تایید، رد یا پاسخ دهید.
+        </p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+        <div class="stat-card">
+            <span class="stat-number">@Model.commentDtos.Count</span>
+            <span class="stat-label">کل نظرات</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">@approvedCount</span>
+            <span class="stat-label">تایید شده</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">@pendingCount</span>
+            <span class="stat-label">در انتظار</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">@rejectedCount</span>
+            <span class="stat-label">رد شده</span>
+        </div>
+    </div>
+
+    <!-- Status Tabs -->
+    <div class="status-tabs">
+        <div class="status-tab active" onclick="filterComments('all')">
+            <i class="fas fa-list"></i>
+            همه نظرات
+        </div>
+        <div class="status-tab" onclick="filterComments('pending')">
+            <i class="fas fa-clock"></i>
+            در انتظار تایید
+        </div>
+        <div class="status-tab" onclick="filterComments('approved')">
+            <i class="fas fa-check-circle"></i>
+            تایید شده
+        </div>
+        <div class="status-tab" onclick="filterComments('rejected')">
+            <i class="fas fa-times-circle"></i>
+            رد شده
+        </div>
+    </div>
+
+    <!-- Comments Grid -->
+
+    @if (Model.commentDtos!=null)
+    {
+        foreach(var item in Model.commentDtos)
+        {
+            <div class="comments-grid">
+                <!-- Comment 1 - Pending -->
+                <div class="comment-card" data-status="@item.OpinionStatus.ToString().ToLower()">
+                    <div class="comment-header">
+                        <div class="user-info">
+                            <div class="user-avatar">@Abbreviation.GetInitials(item.UserFirstName+" "+item.UserLastName)</div>
+                            <div class="user-details">
+                                <h4> @item.UserFirstName @item.UserLastName</h4>
+                                <span class="user-email">@item.Email</span>
+                            </div>
+                        </div>
+                        <span class="comment-status status-@item.OpinionStatus.ToString().ToLower()">
+                            <i class="fas fa-clock"></i>
+                            @(item.OpinionStatus switch
+                            {
+                                OpinionStatusEnum.Pending => "در انتظار تأیید",
+                                OpinionStatusEnum.Approved => "تأیید شده",
+                                OpinionStatusEnum.Rejected => "رد شده",
+                                _ => "در انتظار تأیید"
+                            })
+                        </span>
+                    </div>
+
+                    <div class="comment-body">
+                        <div class="comment-meta">
+                            <div class="meta-item">
+                                <i class="far fa-calendar"></i>
+                                <span>@item.CreateAT.ToShamsi()</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-hashtag"></i>
+                                @* <span>شناسه: #CMT-001</span> *@
+                            </div>
+                        </div>
+
+                        <div class="star-rating">
+                            <div class="stars">
+                                @* <i class="fas fa-star star"></i> *@
+                                @* <i class="fas fa-star star"></i> *@
+                                @* <i class="fas fa-star star"></i> *@
+                                @* <i class="fas fa-star star"></i> *@
+                                @* <i class="fas fa-star-half-alt star"></i> *@
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= item.Rate)
+                                    {
+                                        <i class="fas fa-star active"></i>
+
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star"></i>
+
+                                    }
+                                }
+                            </div>
+                            <span class="rating-text">امتیاز: @item.Rate از ۵</span>
+                        </div>
+
+                        <div class="comment-content">
+                            <p class="comment-text">
+                                @item.CommentText
+                            </p>
+                        </div>
+
+                        <div class="comment-actions">
+                            <form asp-action="ManageComments" method="get">
+                                <a href="#" class="btn btn-approve" onclick="this.closest('form').submit(); return false;">
+                                    <input type="hidden" name="Status" value="A" />
+                                    <input type="hidden" name="PostId" value="@Model.PostId" />
+                                    <input type="hidden" name="CommentId" value="@item.CommentId" />
+                                <i class="fas fa-check"></i>
+                                تایید نظر
+                            </a>
+                            </form>
+                            <form asp-action="ManageComments" method="get">
+                                <a href="#" class="btn btn-reject" onclick="this.closest('form').submit(); return false;">
+                                    <input type="hidden" name="Status" value="R" />
+                                    <input type="hidden" name="PostId"value="@Model.PostId" />
+                                    <input type="hidden" name="CommentId" value="@item.CommentId" />
+                                <i class="fas fa-times"></i>
+                                رد نظر
+                            </a>
+
+                            </form>
+                            <button class="btn btn-reply" onclick="replyToComment(1)">
+                                <i class="fas fa-reply"></i>
+                                پاسخ دادن
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteComment(1)">
+                                <i class="fas fa-trash"></i>
+                                حذف نظر
+                            </button>
+                        </div>
+                    </div>
+                </div>
+         </div>
+        } 
+    }
+    @* <!-- Comment 2 - Approved --> *@
+    @*     <div class="comment-card" data-status="approved"> *@
+    @*         <div class="comment-header"> *@
+    @*             <div class="user-info"> *@
+    @*                 <div class="user-avatar">س.م</div> *@
+    @*                 <div class="user-details"> *@
+    @*                     <h4>سارا محمدی</h4> *@
+    @*                     <span class="user-email">sara.mohammadi@example.com</span> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*             <span class="comment-status status-approved"> *@
+    @*                 <i class="fas fa-check-circle"></i> *@
+    @*                 تایید شده *@
+    @*             </span> *@
+    @*         </div> *@
+
+    @*         <div class="comment-body"> *@
+    @*             <div class="comment-meta"> *@
+    @*                 <div class="meta-item"> *@
+    @*                     <i class="far fa-calendar"></i> *@
+    @*                     <span>۱۴۰۲/۱۰/۱۵ - ۱۴:۲۰</span> *@
+    @*                 </div> *@
+    @*                 <div class="meta-item"> *@
+    @*                     <i class="fas fa-hashtag"></i> *@
+    @*                     <span>شناسه: #CMT-002</span> *@
+    @*                 </div> *@
+    @*             </div> *@
+
+    @*             <div class="star-rating"> *@
+    @*                 <div class="stars"> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                 </div> *@
+    @*                 <span class="rating-text">امتیاز: ۵ از ۵</span> *@
+    @*             </div> *@
+
+    @*             <div class="comment-content"> *@
+    @*                 <p class="comment-text"> *@
+    @*                     از خواندن این داستان لذت بردم. نویسنده توانسته به خوبی احساسات را منتقل کند. *@
+    @*                     پایان بندی غیرمنتظره ولی بسیار زیبا بود. منتظر داستان‌های بیشتری از این نویسنده هستم. *@
+    @*                     زبان روایت ساده ولی عمیق بود و شخصیت‌ها به خوبی پرداخته شده بودند. *@
+    @*                 </p> *@
+    @*             </div> *@
+
+    @*             <div class="comment-actions"> *@
+    @*                 <button class="btn btn-approve" disabled> *@
+    @*                     <i class="fas fa-check-double"></i> *@
+    @*                     تایید شده *@
+    @*                 </button> *@
+    @*                 <button class="btn btn-reject" onclick="rejectComment(2)"> *@
+    @*                     <i class="fas fa-times"></i> *@
+    @*                     لغو تایید *@
+    @*                 </button> *@
+    @*                 <button class="btn btn-reply" onclick="replyToComment(2)"> *@
+    @*                     <i class="fas fa-reply"></i> *@
+    @*                     پاسخ دادن *@
+    @*                 </button> *@
+    @*                 <button class="btn btn-delete" onclick="deleteComment(2)"> *@
+    @*                     <i class="fas fa-trash"></i> *@
+    @*                     حذف نظر *@
+    @*                 </button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+
+    @*     <!-- Comment 3 - Pending --> *@
+    @*     <div class="comment-card" data-status="pending"> *@
+    @*         <div class="comment-header"> *@
+    @*             <div class="user-info"> *@
+    @*                 <div class="user-avatar">ر.ک</div> *@
+    @*                 <div class="user-details"> *@
+    @*                     <h4>رضا کریمی</h4> *@
+    @*                     <span class="user-email">reza.karimi@example.com</span> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @*             <span class="comment-status status-pending"> *@
+    @*                 <i class="fas fa-clock"></i> *@
+    @*                 در انتظار تایید *@
+    @*             </span> *@
+    @*         </div> *@
+
+    @*         <div class="comment-body"> *@
+    @*             <div class="comment-meta"> *@
+    @*                 <div class="meta-item"> *@
+    @*                     <i class="far fa-calendar"></i> *@
+    @*                     <span>۱۴۰۲/۱۰/۱۴ - ۲۲:۱۰</span> *@
+    @*                 </div> *@
+    @*                 <div class="meta-item"> *@
+    @*                     <i class="fas fa-hashtag"></i> *@
+    @*                     <span>شناسه: #CMT-003</span> *@
+    @*                 </div> *@
+    @*             </div> *@
+
+    @*             <div class="star-rating"> *@
+    @*                 <div class="stars"> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="fas fa-star star"></i> *@
+    @*                     <i class="far fa-star"></i> *@
+    @*                 </div> *@
+    @*                 <span class="rating-text">امتیاز: ۴ از ۵</span> *@
+    @*             </div> *@
+
+    @*             <div class="comment-content"> *@
+    @*                 <p class="comment-text"> *@
+    @*                     داستان جالبی بود اما می‌توانست طولانی‌تر باشد. بعضی قسمت‌ها نیاز به توضیح بیشتری داشتند. *@
+    @*                     با این حال کلیت داستان خوب بود و خواندنش لذت‌بخش. شخصیت اصلی به خوبی معرفی شده بود *@
+    @*                     و روند داستان منطقی به نظر می‌رسید. *@
+    @*                 </p> *@
+    @*             </div> *@
+
+    @*             <div class="comment-actions"> *@
+    @*                 <button class="btn btn-approve" onclick="approveComment(3)"> *@
+    @*                     <i class="fas fa-check"></i> *@
+    @*                     تایید نظر *@
+    @*                 </button> *@
+    @*                 <button class="btn btn-reject" onclick="rejectComment(3)"> *@
+    @*                     <i class="fas fa-times"></i> *@
+    @*                     رد نظر *@
+    @*                 </button> *@
+    @*                 <button class="btn btn-reply" onclick="replyToComment(3)"> *@
+    @*                     <i class="fas fa-reply"></i> *@
+    @*                     پاسخ دادن *@
+    @*                 </button> *@
+    @*                 <button class="btn btn-delete" onclick="deleteComment(3)"> *@
+    @*                     <i class="fas fa-trash"></i> *@
+    @*                     حذف نظر *@
+    @*                 </button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    </div>
+</div>
+
+<script>
+    // Filter comments by status
+    function filterComments(status) {
+        const tabs = document.querySelectorAll('.status-tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        event.target.classList.add('active');
+
+        const comments = document.querySelectorAll('.comment-card');
+        comments.forEach(comment => {
+            if (status === 'all' || comment.dataset.status === status) {
+                comment.style.display = 'block';
+                setTimeout(() => {
+                    comment.style.opacity = '1';
+                    comment.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                comment.style.opacity = '0';
+                comment.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    comment.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Update stats display
+        updateStatsDisplay(status);
+    }
+
+    // Update stats display based on filter
+    function updateStatsDisplay(status) {
+        const stats = {
+            all: { total: 12, approved: 8, pending: 3, rejected: 1 },
+            pending: { total: 3, approved: 0, pending: 3, rejected: 0 },
+            approved: { total: 8, approved: 8, pending: 0, rejected: 0 },
+            rejected: { total: 1, approved: 0, pending: 0, rejected: 1 }
+        };
+
+        const statNumbers = document.querySelectorAll('.stat-number');
+        if (statNumbers.length >= 4) {
+            statNumbers[0].textContent = stats[status].total;
+            statNumbers[1].textContent = stats[status].approved;
+            statNumbers[2].textContent = stats[status].pending;
+            statNumbers[3].textContent = stats[status].rejected;
+        }
+    }
+
+    // Comment actions
+    function approveComment(id) {
+        const commentCard = event.target.closest('.comment-card');
+        const statusSpan = commentCard.querySelector('.comment-status');
+
+        // Show loading animation
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال تایید...';
+        btn.disabled = true;
+
+        // Simulate API call
+        setTimeout(() => {
+            // Update UI
+            statusSpan.className = 'comment-status status-approved';
+            statusSpan.innerHTML = '<i class="fas fa-check-circle"></i> تایید شده';
+
+            // Update button
+            btn.className = 'btn btn-approve';
+            btn.innerHTML = '<i class="fas fa-check-double"></i> تایید شده';
+            btn.disabled = true;
+
+            // Update card status
+            commentCard.dataset.status = 'approved';
+
+            // Show success message
+            showToast('نظر با موفقیت تایید شد', 'success');
+
+            // Update stats
+            updateStatsDisplay('all');
+        }, 1000);
+    }
+
+    function rejectComment(id) {
+        const commentCard = event.target.closest('.comment-card');
+        const statusSpan = commentCard.querySelector('.comment-status');
+        const isAlreadyApproved = statusSpan.classList.contains('status-approved');
+
+        if (isAlreadyApproved) {
+            if (!confirm('آیا از لغو تایید این نظر اطمینان دارید؟')) return;
+        } else {
+            if (!confirm('آیا از رد این نظر اطمینان دارید؟')) return;
+        }
+
+        // Show loading animation
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال پردازش...';
+        btn.disabled = true;
+
+        // Simulate API call
+        setTimeout(() => {
+            // Update UI
+            statusSpan.className = 'comment-status status-rejected';
+            statusSpan.innerHTML = '<i class="fas fa-times-circle"></i> رد شده';
+
+            // Update buttons
+            const approveBtn = commentCard.querySelector('.btn-approve');
+            approveBtn.disabled = false;
+            approveBtn.innerHTML = '<i class="fas fa-check"></i> تایید نظر';
+
+            // Update card status
+            commentCard.dataset.status = 'rejected';
+
+            // Show success message
+            showToast(isAlreadyApproved ? 'تایید نظر لغو شد' : 'نظر رد شد', 'warning');
+
+            // Update stats
+            updateStatsDisplay('all');
+        }, 1000);
+    }
+
+    function replyToComment(id) {
+        const commentText = prompt('پاسخ خود را وارد کنید:');
+        if (commentText) {
+            // Show loading
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                showToast('پاسخ شما ارسال شد', 'success');
+            }, 1500);
+        }
+    }
+
+    function deleteComment(id) {
+        if (!confirm('آیا از حذف این نظر اطمینان دارید؟ این عمل قابل بازگشت نیست.')) return;
+
+        const commentCard = event.target.closest('.comment-card');
+
+        // Show loading animation
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال حذف...';
+
+        // Add fade out animation
+        commentCard.style.opacity = '0';
+        commentCard.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            commentCard.style.display = 'none';
+            showToast('نظر با موفقیت حذف شد', 'error');
+            updateStatsDisplay('all');
+        }, 500);
+    }
+
+    // Toast notification function
+    function showToast(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'exclamation-circle'}"></i>
+            <span>${message}</span>
+        `;
+
+        // Add styles
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: ${type === 'success' ? '#00b894' : type === 'error' ? '#ff4757' : '#ffa502'};
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        `;
+
+        document.body.appendChild(toast);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+    keyframes slideIn {
+                from { transform: translateX(-100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+    keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(-100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+</script>

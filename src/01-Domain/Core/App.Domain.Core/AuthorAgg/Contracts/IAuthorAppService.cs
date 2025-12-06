@@ -13,5 +13,6 @@ namespace App.Domain.Core.AuthorAgg.Contracts
     {
         public Result<bool> AddAuthor(AuthorDto authorDto);
         public Result<Author> Login(LoginDto loginDto);
+        public Result<AuthorHeaderDto>? GetAuthorHeaderDto(int AuthorId);
     }
 }

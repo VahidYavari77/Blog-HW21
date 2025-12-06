@@ -2,7 +2,7 @@
 {
     public class FileService
     {
-        public string Upload(IFormFile file)
+        public static string Upload(IFormFile file)
         {
 
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img");

@@ -10,6 +10,7 @@ using App.Domin.Service.Services.AuthorAgg;
 using App.Domin.Service.Services.CategoryAgg;
 using App.Domin.Service.Services.CommentAgg;
 using App.Domin.Service.Services.PostAgg;
+
 using App.Infrastructures.EfCore.Persistence;
 
 
@@ -28,9 +29,14 @@ builder.Services.AddControllersWithViews();
 
 
 
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//options.UseSqlServer
+//    (@"Server=Localhost;Database=Blog;Integrated Security=true  ;TrustServerCertificate=true;"));
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer
-    (@"Server=Localhost;Database=Blog;Integrated Security=true  ;TrustServerCertificate=true;"));
+    options.UseSqlServer(
+        @"Server=Localhost;Database=Blog;Integrated Security=true;TrustServerCertificate=true;MultipleActiveResultSets=true;"
+    )
+);
 builder.Services.AddScoped<IAuthorAppService, AuthorAppService>();
 builder.Services.AddScoped<IPostAppService, PostAppService>();
 builder.Services.AddScoped<ICommentAppService, CommentAppService>();
@@ -43,6 +49,7 @@ builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
 builder.Services.AddScoped<IAuthorRepo, AuthorRepo>();
 builder.Services.AddScoped<IPostRepo, PostRepo>();
 builder.Services.AddScoped<ICommentRepo, CommentRepo>();
+
 
 var app = builder.Build();
 

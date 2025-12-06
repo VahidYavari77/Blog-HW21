@@ -12,5 +12,11 @@ namespace App.Domain.Core.CategoryAgg.Contracts
   public  interface ICategoryAppService
     {
         public Result<bool> AddCategory(CategoryDto _category);
+        public Result<List<CategoryDto>> GetByAuthorId(int Id);
+        public Result<CategoryDto> GetCategoryById(int Id);
+       
+        public Task<Result<bool>> UpdateCategory(CategoryDto category);
+        public Task<Result<bool>> DeleteCategory(int id);
+        public Task<Result<List<MenuCategoryDto>>> GetMenuCategory();
     }
 }

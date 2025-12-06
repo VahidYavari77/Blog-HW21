@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.CategoryAgg.Entities;
+﻿using App.Domain.Core.CategoryAgg.Dtos;
+using App.Domain.Core.CategoryAgg.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,10 @@ namespace App.Domain.Core.CategoryAgg.Contracts
    public interface ICategoryService
     {
         public bool AddCategory(Category category);
+        public List<CategoryDto> GetByAuthorId(int Id);
+        public CategoryDto GetCategoryById(int Id);
+        public Task<bool> UpdateCategory(Category category);
+        public Task<bool> DeleteCategory(int id);
+        public Task<List<MenuCategoryDto>> GetMenuCategory();
     }
 }

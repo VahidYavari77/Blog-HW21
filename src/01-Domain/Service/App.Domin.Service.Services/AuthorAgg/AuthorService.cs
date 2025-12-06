@@ -16,6 +16,11 @@ namespace App.Domin.Service.Services.AuthorAgg
             return authorRepo.AddAuthor(author);
         }
 
+        public AuthorHeaderDto? GetAuthorHeaderDto(int AuthorId)
+        {
+            return authorRepo.GetAuthorHeaderDto(AuthorId);
+        }
+
         public Author? Login(LoginDto loginDto)
         {
           return authorRepo.Login(loginDto);

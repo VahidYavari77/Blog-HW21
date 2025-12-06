@@ -28,7 +28,7 @@ namespace App.EndPoints.MVC.Blog_HW21.Controllers
                 InMemoryDb.CurrentAuthor = result.Data;
                 InMemoryDb.CurrentAuthorId = result.Data.Id;
                 
-                return RedirectToAction("Dashboard", "Dashboard");
+                return RedirectToAction("AuthorPanel", "AuthorPanel");
             }
             else
             {

@@ -11,7 +11,8 @@ namespace App.Domain.Core.CategoryAgg.Dtos
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        
+        public int CountPost { get; set; } 
         public int AuthorId { get; set; }
+        public int CategoryId { get; set; }
     }
 }

@@ -1,0 +1,586 @@
+﻿@using App.EndPoints.MVC.Blog_HW21.Models.Category
+@model App.EndPoints.MVC.Blog_HW21.Models.Post.PostViewModel
+@{
+    var cate = ViewBag.Catrgories as List<CategoryViewModel>;
+    var post = ViewBag.Posts as App.EndPoints.MVC.Blog_HW21.Models.Post.PostViewModel;
+    Layout = "~/Views/Shared/EditPost.cshtml";
+}
+@section Styles {
+<link rel="stylesheet" href="~/css/EditPost.css" />
+}
+
+<div class="bubble" style="width: 120px; height: 120px; top: 10%; left: 5%; animation-delay: 0s; animation-duration: 20s;"></div>
+<div class="bubble" style="width: 80px; height: 80px; top: 20%; right: 8%; animation-delay: 2s; animation-duration: 18s;"></div>
+<div class="bubble" style="width: 100px; height: 100px; bottom: 15%; left: 10%; animation-delay: 4s; animation-duration: 22s;"></div>
+<div class="bubble" style="width: 60px; height: 60px; top: 60%; right: 15%; animation-delay: 1s; animation-duration: 16s;"></div>
+<div class="bubble" style="width: 90px; height: 90px; bottom: 30%; right: 5%; animation-delay: 3s; animation-duration: 19s;"></div>
+<div class="bubble" style="width: 70px; height: 70px; top: 40%; left: 15%; animation-delay: 5s; animation-duration: 17s;"></div>
+
+<!-- Form Container -->
+<form asp-action="EditPost" method="post" enctype="multipart/form-data">
+   <input type="hidden" asp-for="ImgUrl"  value="@post.ImgUrl" />
+   <input type="hidden" asp-for="PostId" value="@post.PostId" />
+   
+    <div class="form-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progressBar"></div>
+
+        <!-- Form Header -->
+        <div class="form-header">
+            <div class="form-icon">
+                <i class="fas fa-plus-circle"></i>
+            </div>
+            <h1 class="form-title">ویرایش پست </h1>
+            <p class="form-subtitle">اطلاعات  جدید را با دقت وارد کنید</p>
+        </div>
+
+        <!-- Form Body -->
+        <div class="form-body">
+            <!-- Stats Row -->
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-number" id="totalPosts">۴۲</span>
+                    <span class="stat-label">کل پست‌ها</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="todayPosts">۳</span>
+                    <span class="stat-label">پست‌های امروز</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number" id="draftPosts">۲</span>
+                    <span class="stat-label">پست‌های پیش‌نویس</span>
+                </div>
+            </div>
+
+            <!-- Post Title Field -->
+            <div class="form-group">
+                <label for="postTitle">
+                    <i class="fas fa-heading"></i>
+                    عنوان پست
+                </label>
+                <input  asp-for="Title" type="text" value="@post.Title"
+                id="postTitle"
+                class="form-control"
+                placeholder="عنوان پست را وارد کنید"
+                required>
+                <div class="char-counter">
+                    <span>حداکثر ۱۰۰ کاراکتر</span>
+                    <span class="char-count safe" id="titleCounter">۰/۱۰۰</span>
+                </div>
+            </div>
+
+            <!-- File Upload Field -->
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-image"></i>
+                    آپلود تصویر
+                </label>
+
+                <div class="file-upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>فایل را اینجا رها کنید یا برای آپلود کلیک کنید</h3>
+                    <div class="file-requirements">
+                        <div><i class="fas fa-check-circle"></i> حداکثر حجم: <strong>۲ مگابایت</strong></div>
+                        <div><i class="fas fa-check-circle"></i> فرمت‌های مجاز: <strong>JPG, PNG</strong></div>
+                        <div><i class="fas fa-check-circle"></i> نمونه نام فایل: <strong>d886d986db8...1db8c-4.jpg</strong></div>
+                    </div>
+                    <input asp-for="Img" type="file" id="fileInput" class="file-input" accept=".jpg,.jpeg,.png">
+
+                    <button type="button" class="btn btn-secondary" style="margin-top: 20px; width: auto; padding: 12px 25px;">
+                        <i class="fas fa-folder-open"></i>
+                        Choose File
+                    </button>
+                </div>
+
+                <div id="filePreview" class="file-preview" style="display: none;">
+                    <div class="file-info">
+                        <i class="fas fa-file-image file-icon"></i>
+                        <div class="file-details">
+
+                            <span class="file-name" id="fileName">d886d986db8...1db8c-4.jpg</span>
+                            <span class="file-size" id="fileSize">1.8 MB</span>
+                        </div>
+                    </div>
+                    <div class="file-status valid" id="fileStatus">
+                        <i class="fas fa-check-circle"></i> فایل معتبر است
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Field -->
+            <div class="form-group">
+                <label for="postCategory">
+                    <i class="fas fa-folder"></i>
+                    دسته‌بندی
+                </label>
+                <select id="postCategory" class="form-control" asp-for="CategoryId">
+                    <option value="@post.CategoryId">( @post.CategoryName ) دسته بندی انتخاب شده</option>
+                    @foreach (var item in cate)
+                    {
+                        if (item.CategoryId == post.CategoryId)
+                        {
+                            continue;
+                        }
+
+                         <option value="@item.CategoryId">@item.Title</option>
+                   
+                    }
+               
+               
+            </select>
+        </div>
+
+        <!-- Content Field -->
+        <div class="form-group">
+            <label for="postContent">
+                <i class="fas fa-align-left"></i>
+                محتوای پست
+            </label>
+            <textarea  asp-for="Text" id="postContent" 
+                      class="form-control"
+                      placeholder="محتويات پست را وارد کنید"
+                      required> @post.Text</textarea>
+            <div class="char-counter">
+                <span>حداقل ۱۰۰ کاراکتر، حداکثر ۵۰۰۰ کاراکتر</span>
+                <span class="char-count safe" id="contentCounter">۰/۵۰۰۰</span>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="cancelPost()" id="cancelBtn">
+                <i class="fas fa-times"></i>
+                انصراف
+            </button>
+            <button type="submit" class="btn btn-primary" onclick="submitPost()" id="submitBtn">
+                <i class="fas fa-paper-plane"></i>
+                ویرایش پست
+            </button>
+        </div>
+    </div>
+</div>
+</form>
+<script>
+    // DOM Elements
+    const titleInput = document.getElementById('postTitle');
+    const contentInput = document.getElementById('postContent');
+    const fileInput = document.getElementById('fileInput');
+    const uploadArea = document.getElementById('uploadArea');
+    const filePreview = document.getElementById('filePreview');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const fileStatus = document.getElementById('fileStatus');
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const progressBar = document.getElementById('progressBar');
+
+    // Character counters
+    const titleCounter = document.getElementById('titleCounter');
+    const contentCounter = document.getElementById('contentCounter');
+
+    // Initialize character counters - FIXED VERSION
+    titleInput.addEventListener('input', updateTitleCounter);
+    contentInput.addEventListener('input', updateContentCounter);
+
+    // Function to update title counter
+    function updateTitleCounter() {
+        const count = titleInput.value.length;
+        const max = 100;
+        titleCounter.textContent = `${count}/${max}`;
+
+        // Update counter color based on count
+        updateCounterColor(titleCounter, count, max);
+
+        // Update progress bar
+        updateProgressBar();
+    }
+
+    // Function to update content counter
+    function updateContentCounter() {
+        const count = contentInput.value.length;
+        const max = 5000;
+        const min = 100;
+
+        contentCounter.textContent = `${count}/${max}`;
+
+        // Update counter color based on count
+        updateCounterColor(contentCounter, count, max);
+
+        // Enable/disable submit button based on content length
+        if (count < min) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i> محتوا باید حداقل ۱۰۰ کاراکتر باشد';
+        } else {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ویرایش پست';
+        }
+
+        // Update progress bar
+        updateProgressBar();
+    }
+
+    // Function to update counter color
+    function updateCounterColor(counterElement, count, max) {
+        // Remove all color classes
+        counterElement.classList.remove('safe', 'warning', 'danger');
+
+        // Add appropriate class based on percentage
+        const percentage = (count / max) * 100;
+
+        if (count === 0) {
+            counterElement.classList.add('safe');
+        } else if (percentage > 90) {
+            counterElement.classList.add('danger');
+        } else if (percentage > 70) {
+            counterElement.classList.add('warning');
+        } else {
+            counterElement.classList.add('safe');
+        }
+    }
+
+    // Function to update progress bar
+    function updateProgressBar() {
+        const titleLength = titleInput.value.length;
+        const contentLength = contentInput.value.length;
+
+        // Calculate completion percentage (max 70% for these fields)
+        const titlePercent = Math.min((titleLength / 100) * 35, 35);
+        const contentPercent = Math.min((contentLength / 5000) * 35, 35);
+
+        // Total progress (file adds 30% if uploaded)
+        const fileUploaded = fileInput.files.length > 0 ? 30 : 0;
+        const totalPercent = titlePercent + contentPercent + fileUploaded;
+
+        // Update progress bar width
+        progressBar.style.width = totalPercent + '%';
+    }
+
+    // File upload handling
+    fileInput.addEventListener('change', handleFileSelect);
+
+    function handleFileSelect(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Show preview with animation
+        filePreview.style.display = 'flex';
+        filePreview.style.animation = 'slideIn 0.5s ease-out';
+
+        // Update file info
+        let displayName = file.name;
+        if (displayName.length > 25) {
+            displayName = displayName.substring(0, 15) + '...' + displayName.substring(displayName.length - 10);
+        }
+        fileName.textContent = displayName;
+
+        // Update file size
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        fileSize.textContent = `${fileSizeMB} MB`;
+
+        // Validate file
+        const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        const maxSize = 2; // 2MB
+
+        // Reset status
+        fileStatus.className = 'file-status';
+
+        if (!validTypes.includes(file.type)) {
+            fileStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> فرمت فایل نامعتبر است';
+            fileStatus.classList.add('invalid');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i> فرمت فایل نامعتبر است';
+        } else if (file.size > maxSize * 1024 * 1024) {
+            fileStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> حجم فایل بیش از حد مجاز';
+            fileStatus.classList.add('invalid');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-exclamation-circle"></i> حجم فایل بیش از حد مجاز';
+        } else {
+            fileStatus.innerHTML = '<i class="fas fa-check-circle"></i> فایل معتبر است';
+            fileStatus.classList.add('valid');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ویرایش پست';
+
+            // Animate success
+            fileStatus.style.animation = 'bounce 1s ease';
+            setTimeout(() => {
+                fileStatus.style.animation = '';
+            }, 1000);
+        }
+
+        // Update progress bar
+        updateProgressBar();
+    }
+
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+
+        // Add animation
+        uploadArea.style.animation = 'pulse 0.5s ease-in-out';
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+        uploadArea.style.animation = 'pulse 3s infinite';
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        uploadArea.style.animation = 'pulse 3s infinite';
+
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            const event = new Event('change');
+            fileInput.dispatchEvent(event);
+
+            // Add visual feedback
+            uploadArea.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                uploadArea.style.transform = '';
+            }, 200);
+        }
+    });
+
+    // Simulate file selection when button is clicked
+    uploadArea.querySelector('button').addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event bubbling
+        fileInput.click();
+
+        // Add button animation
+        const btn = e.currentTarget;
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            btn.style.transform = '';
+        }, 200);
+    });
+
+    // Form submission
+    function submitPost() {
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
+        const category = document.getElementById('postCategory').value;
+        const file = fileInput.files[0];
+
+        // Validation
+        if (!title) {
+            alert('لطفا عنوان پست را وارد کنید');
+            titleInput.focus();
+            titleInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                titleInput.style.animation = '';
+            }, 500);
+            return;
+        }
+
+        if (title.length > 100) {
+            alert('عنوان پست نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد');
+            titleInput.focus();
+            titleInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                titleInput.style.animation = '';
+            }, 500);
+            return;
+        }
+
+        if (!content) {
+            alert('لطفا محتوای پست را وارد کنید');
+            contentInput.focus();
+            contentInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                contentInput.style.animation = '';
+            }, 500);
+            return;
+        }
+
+        if (content.length < 100) {
+            alert('محتوای پست باید حداقل ۱۰۰ کاراکتر باشد');
+            contentInput.focus();
+            contentInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                contentInput.style.animation = '';
+            }, 500);
+            return;
+        }
+
+        if (content.length > 5000) {
+            alert('محتوای پست نمی‌تواند بیشتر از ۵۰۰۰ کاراکتر باشد');
+            contentInput.focus();
+            contentInput.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                contentInput.style.animation = '';
+            }, 500);
+            return;
+        }
+
+        if (!file) {
+            // alert('لطفا یک تصویر برای پست انتخاب کنید');
+            uploadArea.style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                uploadArea.style.animation = 'pulse 3s infinite';
+            }, 500);
+            return;
+        }
+
+        // Show loading state with animation
+        submitBtn.disabled = true;
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ویرایش پست...';
+
+        // Animate all fields
+        document.querySelectorAll('.form-control').forEach(el => {
+            el.style.animation = 'glow 1s ease-in-out';
+        });
+
+        // Simulate API call
+        setTimeout(() => {
+            // Show success animation
+            submitBtn.classList.add('success');
+            submitBtn.innerHTML = '<i class="fas fa-check"></i> پست با موفقیت ویرایش شد';
+
+            // Animate the whole form
+            document.querySelector('.form-container').style.animation = 'bounce 1s ease';
+
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                submitBtn.classList.remove('success');
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                document.querySelector('.form-container').style.animation = '';
+
+                // Reset form
+                titleInput.value = '';
+                contentInput.value = '';
+                fileInput.value = '';
+                filePreview.style.display = 'none';
+                document.getElementById('postCategory').value = 'content';
+
+                // Update counters
+                updateTitleCounter();
+                updateContentCounter();
+
+                // Update stats
+                document.getElementById('totalPosts').textContent = parseInt(document.getElementById('totalPosts').textContent) + 1;
+                document.getElementById('todayPosts').textContent = parseInt(document.getElementById('todayPosts').textContent) + 1;
+
+                // Reset animations
+                document.querySelectorAll('.form-control').forEach(el => {
+                    el.style.animation = 'glow 3s infinite';
+                });
+
+                // Show success message
+                alert(`پست "${title.substring(0, 30)}..." با موفقیت ویرایش شد و منتظر تایید مدیریت است.`);
+            }, 2000);
+        }, 1500);
+    }
+
+    // Cancel post with animation
+    function cancelPost() {
+        if (titleInput.value.trim() || contentInput.value.trim() || fileInput.files.length > 0) {
+            if (confirm('آیا از انصراف از ویرایش پست اطمینان دارید؟ تغییرات ذخیره نخواهند شد.')) {
+                // Animate cancel button
+                cancelBtn.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    cancelBtn.style.transform = '';
+                }, 200);
+
+                // Reset form with animation
+                document.querySelectorAll('.form-control').forEach(el => {
+                    el.style.transform = 'translateX(-20px)';
+                    el.style.opacity = '0.5';
+                    setTimeout(() => {
+                        el.style.transform = '';
+                        el.style.opacity = '1';
+                    }, 300);
+                });
+
+                setTimeout(() => {
+                    // Reset form values
+                    titleInput.value = '';
+                    contentInput.value = '';
+                    fileInput.value = '';
+                    filePreview.style.display = 'none';
+                    document.getElementById('postCategory').value = 'content';
+
+                    // Update counters
+                    updateTitleCounter();
+                    updateContentCounter();
+
+                    alert('ویرایش پست لغو شد.');
+                }, 300);
+            }
+        } else {
+            // Animate cancel button
+            cancelBtn.style.animation = 'bounce 1s ease';
+            setTimeout(() => {
+                cancelBtn.style.animation = '';
+            }, 1000);
+
+            alert('ویرایش پست لغو شد.');
+        }
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Ctrl + Enter to submit
+        if (e.ctrlKey && e.key === 'Enter') {
+            if (!submitBtn.disabled) submitPost();
+        }
+
+        // Escape to cancel
+        if (e.key === 'Escape') {
+            cancelPost();
+        }
+    });
+
+    // Add hover effect to all interactive elements
+    document.querySelectorAll('.form-control, .btn, .stat-box, .file-upload-area').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            el.style.transform = el.style.transform || 'translateY(-2px)';
+        });
+
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = '';
+        });
+    });
+
+    // Initialize counters
+    updateTitleCounter();
+    updateContentCounter();
+
+    // Create more floating bubbles dynamically
+    function createBubbles() {
+        const bubbleContainer = document.body;
+        for (let i = 0; i < 8; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+
+            // Random size between 40 and 120px
+            const size = Math.floor(Math.random() * 80) + 40;
+
+            // Random position
+            const top = Math.random() * 100;
+            const left = Math.random() * 100;
+
+            // Random animation properties
+            const duration = Math.floor(Math.random() * 10) + 15;
+            const delay = Math.random() * 5;
+
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.top = `${top}%`;
+            bubble.style.left = `${left}%`;
+            bubble.style.animationDuration = `${duration}s`;
+            bubble.style.animationDelay = `${delay}s`;
+            bubble.style.background = `rgba(255, 255, 255, ${Math.random() * 0.3 + 0.1})`;
+
+            bubbleContainer.appendChild(bubble);
+        }
+    }
+
+    // Create bubbles on load
+    window.addEventListener('load', createBubbles);
+</script>

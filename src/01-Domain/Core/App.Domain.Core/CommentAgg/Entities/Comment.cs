@@ -12,6 +12,10 @@ namespace App.Domain.Core.CommentAgg.Entities
 {
    public class Comment:BaseEntity
     {
+        public Comment()
+        {
+            OpinionStatus = OpinionStatusEnum.Pending;
+        }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
         public string Email { get; set; }
@@ -20,8 +24,9 @@ namespace App.Domain.Core.CommentAgg.Entities
         public float Rate { get; set; }
         public int MyProperty { get; set; }
         public OpinionStatusEnum OpinionStatus { get; set; }
-        public Post Post { get; set; }
         public int PostId { get; set; }
+        public Post Post { get; set; }
+
 
     }
 }

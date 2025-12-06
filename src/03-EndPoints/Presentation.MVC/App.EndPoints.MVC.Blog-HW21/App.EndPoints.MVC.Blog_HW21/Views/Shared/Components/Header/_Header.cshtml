@@ -1,0 +1,61 @@
+﻿@using App.EndPoints.MVC.Blog_HW21.Models.CategoryAgg
+@model List<MenuCategoryViewModel>
+@{
+}
+<header>
+    <div class="container">
+        <div class="top-bar">
+            <div class="logo">
+                <i class="fas fa-pen-nib"></i>
+                <h1>پلتفرم <span>نویسندگان</span></h1>
+            </div>
+            <div class="auth-buttons">
+                <a asp-controller="Author" asp-action="Login" class="btn btn-login">ورود به حساب</a>
+                <a asp-controller="Author" asp-action="Registration" class="btn btn-signup">عضویت رایگان</a>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="container nav-container">
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+
+            <ul class="main-menu">
+                <li><a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                <li class="categories-menu">
+                    <a href="#"><i class="fas fa-th-large"></i> دسته بندی ها <i class="fas fa-chevron-down"></i></a>
+
+                    <div class="categories-dropdown">
+                        <form asp-action="Index" asp-controller="Home" method="get">
+                            <a href="#" onclick="this.closest('form').submit(); return false;">
+                                <i class="fas fa-star"></i> تمامی دسته بندی ها
+                            </a>
+                            <input type="hidden" name="filter" value="all" />
+                        </form>
+                        @foreach (var item in Model)
+                        {
+                            <form asp-action="Index" asp-controller="Home" method="get" style="display:inline;">
+                                <input type="hidden" name="filter" value="@item.CategortName" />
+                                <a href="#" onclick="this.closest('form').submit(); return false;">
+                                    <i class="fas fa-star"></i> @item.CategortName
+                                </a>
+                            </form>
+                        }
+                    </div>
+
+                </li>
+                <li><a href="#"><i class="fas fa-crown"></i> نویسندگان برتر</a></li>
+                <li><a href="#"><i class="fas fa-trophy"></i> مسابقات</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> درباره ما</a></li>
+                <li><a href="#"><i class="fas fa-phone"></i> تماس با ما</a></li>
+            </ul>
+
+            <div class="search-bar">
+                <input type="text" placeholder="جستجو در بین آثار...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </nav>
+</header>

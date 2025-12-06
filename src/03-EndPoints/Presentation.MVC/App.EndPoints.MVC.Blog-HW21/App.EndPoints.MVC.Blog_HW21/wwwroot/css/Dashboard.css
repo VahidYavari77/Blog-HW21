@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Vazirmatn', sans-serif;
+    text-decoration:none;
 }
 
 :root {
@@ -221,8 +222,8 @@ tr:hover {
 }
 
 .post-image {
-    width: 110px;
-    height: 60px;
+    width: 140px;
+    height: 90px;
     border-radius: 8px;
     background: var(--gradient);
     display: flex;

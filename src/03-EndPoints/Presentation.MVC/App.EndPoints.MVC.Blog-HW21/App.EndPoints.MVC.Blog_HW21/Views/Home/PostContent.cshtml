@@ -1,0 +1,611 @@
+﻿@using App.EndPoints.MVC.Blog_HW21.Models.Post
+@model PostViewModel
+
+@{
+
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه اصلی - پلتفرم نویسندگان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @section Styles {
+    <link rel="stylesheet" href="~/css/Index.css" />
+    <link rel="stylesheet" href="~/css/PostContent.css" />
+
+    }
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-element" style="width: 80px; height: 80px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+    <div class="floating-element" style="width: 60px; height: 60px; top: 70%; right: 10%; animation-delay: 2s;"></div>
+    <div class="floating-element" style="width: 100px; height: 100px; bottom: 20%; left: 8%; animation-delay: 4s;"></div>
+
+    <div class="container">
+    
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <!-- Categories Box -->
+                <div class="box">
+                    <h2 class="box-title">
+                        <i class="fas fa-th-large"></i>
+                        دسته بندی ها
+                    </h2>
+                    <ul class="categories-list">
+                        <li class="category-item">
+                            <span>داستان کوتاه</span>
+                            <span class="category-count">۱۲۴</span>
+                        </li>
+                        <li class="category-item">
+                            <span>رمان</span>
+                            <span class="category-count">۸۷</span>
+                        </li>
+                        <li class="category-item">
+                            <span>شعر</span>
+                            <span class="category-count">۱۵۶</span>
+                        </li>
+                        <li class="category-item">
+                            <span>مقاله</span>
+                            <span class="category-count">۹۳</span>
+                        </li>
+                        <li class="category-item">
+                            <span>نقد و بررسی</span>
+                            <span class="category-count">۶۷</span>
+                        </li>
+                        <li class="category-item">
+                            <span>خاطره نویسی</span>
+                            <span class="category-count">۴۵</span>
+                        </li>
+                        <li class="category-item">
+                            <span>داستان علمی</span>
+                            <span class="category-count">۳۸</span>
+                        </li>
+                        <li class="category-item">
+                            <span>طنز</span>
+                            <span class="category-count">۵۲</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Top Authors Box -->
+                <div class="box">
+                    <h2 class="box-title">
+                        <i class="fas fa-crown"></i>
+                        نویسندگان برتر
+                    </h2>
+                    <div class="authors-list">
+                        <div class="author-item">
+                            <div class="author-avatar">م.ح</div>
+                            <div class="author-info">
+                                <div class="author-name">محمد حسینی</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۴۵ پست</span>
+                                    <span>۲.۱k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">ف.ر</div>
+                            <div class="author-info">
+                                <div class="author-name">فاطمه رضایی</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۳۸ پست</span>
+                                    <span>۱.۸k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">ع.ک</div>
+                            <div class="author-info">
+                                <div class="author-name">علی کریمی</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۳۲ پست</span>
+                                    <span>۱.۵k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">ز.ن</div>
+                            <div class="author-info">
+                                <div class="author-name">زهرا نوری</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۲۹ پست</span>
+                                    <span>۱.۳k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="author-item">
+                            <div class="author-avatar">م.ع</div>
+                            <div class="author-info">
+                                <div class="author-name">مرتضی علیزاده</div>
+                                <div class="author-stats">
+                                    <span class="author-posts">۲۷ پست</span>
+                                    <span>۱.۱k دنبال کننده</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="posts-grid">
+              
+                <!-- content  -->
+
+                <div class="container">
+                    <main class="main-content">
+                        <div class="posts-grid">
+                            <!-- Article Container -->
+                            <article class="article-container">
+                                <!-- Article Header -->
+                                <div class="article-header">
+                                    <a asp-action="Index" class="back-btn">
+                                        <i class="fas fa-arrow-right"></i>
+                                        بازگشت
+                                    </a>
+
+                                    <span class="article-category"> @Model.CategoryName</span>
+                                    <h1 class="article-title">‌ : @Model.Title</h1>
+
+                                    <div class="article-meta">
+                                        <div class="meta-item">
+                                            <i class="far fa-calendar"></i>
+                                            <span>: @Model.CreatAt</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="fas fa-user-edit"></i>
+                                            <span>نویسنده: @Model.AuthorName</span>
+                                        </div>
+                                        <div class="meta-item">
+                                            <i class="far fa-clock"></i>
+                                            <span>زمان مطالعه: ۸ دقیقه</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Article Image -->
+                                <div class="article-image" style="max-height:640px">
+                                    <i class="fas fa-book-open"></i>
+                                    <div class="image-overlay">
+                                    
+                                        <img  style="max-width:1020px;max-height:640px" src="~/@Model.ImgUrl" alt="Alternate Text" />
+                                    </div>
+                                </div>
+
+                                <!-- Article Content -->
+                                <div class="article-content">
+                                    @Model.Text;
+          
+
+                                </div>
+
+
+                                <!-- Comments Section -->
+                               
+
+
+
+
+
+
+                        </div>
+                </div>
+
+                @* <!-- Add Comment Form --> *@
+                @* <div class="add-comment-section" id="add-comment-1"> *@
+                @*     <form class="comment-form" asp-controller="AuthorPanel" asp-action="Comment" method="post" onsubmit="submitComment(event, this)"> *@
+                @*         <div class="form-row"> *@
+                @*             <div class="form-group"> *@
+                @*                 <label for="firstName-1">نام</label> *@
+                @*                 <input type="hidden" name="PostId" value="@Model.PostId" /> *@
+                @*                 <input type="text" id="firstName-1" name="UserFirstName" class="form-control" placeholder="نام خود را وارد کنید" required> *@
+                @*             </div> *@
+                @*             <div class="form-group"> *@
+                @*                 <label for="lastName-1">نام خانوادگی</label> *@
+                @*                 <input type="text" id="lastName-1" name="UserLastName" class="form-control" placeholder="نام خانوادگی خود را وارد کنید" required> *@
+                @*             </div> *@
+                @*         </div> *@
+                @*         <div class="form-group full-width"> *@
+                @*             <label for="email-1">ایمیل</label> *@
+                @*             <input type="email" id="email-1" name="Email" class="form-control" placeholder="ایمیل خود را وارد کنید" required> *@
+                @*         </div> *@
+                @*         <div class="rating-form-group"> *@
+                @*             <label class="rating-label">امتیاز دهید</label> *@
+                @*             <div class="rating" id="rating-1" style="  justify-content: center;"> *@
+                @*                 <i class="far fa-star star" data-rating="1"></i> *@
+                @*                 <i class="far fa-star star" data-rating="2"></i> *@
+                @*                 <i class="far fa-star star" data-rating="3"></i> *@
+                @*                 <i class="far fa-star star" data-rating="4"></i> *@
+                @*                 <i class="far fa-star star" data-rating="5"></i> *@
+                @*                 <input type="hidden" id="rating-value-1" value="0" name="Rate"> *@
+                @*             </div> *@
+
+                @*         </div> *@
+                @*         <div class="form-group full-width"> *@
+                @*             <label for="comment-1">نظر شما</label> *@
+                @*             <textarea id="comment-1" name="CommentText" class="form-control" placeholder="نظر خود را در مورد این پست بنویسید..." required></textarea> *@
+                @*         </div> *@
+                @*         <div class="form-actions"> *@
+                @*             <button type="button" class="btn btn-secondary" onclick="cancelComment(this)">انصراف</button> *@
+                @*             <button type="submit" class="btn btn-primary">ثبت نظر</button> *@
+                @*         </div> *@
+                @*     </form> *@
+                @* </div> *@
+
+            </div>
+           
+                            </article>
+                        </div>
+                    </main>
+                </div>
+                <!-- content  -->
+              
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize star ratings
+        document.querySelectorAll('.rating').forEach(rating => {
+            const stars = rating.querySelectorAll('.star');
+            const hiddenInput = document.getElementById(`rating-value-${rating.id.split('-')[1]}`);
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const ratingValue = this.getAttribute('data-rating');
+                    hiddenInput.value = ratingValue;
+
+                    // Update stars appearance
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= ratingValue) {
+                            s.classList.remove('far');
+                            s.classList.add('fas', 'active');
+                        } else {
+                            s.classList.remove('fas', 'active');
+                            s.classList.add('far');
+                        }
+                    });
+                });
+
+                // Hover effect
+                star.addEventListener('mouseenter', function() {
+                    const hoverValue = this.getAttribute('data-rating');
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= hoverValue) {
+                            s.style.color = '#ffc107';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    const currentValue = hiddenInput.value;
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-rating') <= currentValue) {
+                            s.style.color = '#ffc107';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Toggle comments section
+        function toggleComments(button) {
+            const postCard = button.closest('.post-card');
+            const commentsSection = postCard.querySelector('.comments-section');
+            const addCommentSection = postCard.querySelector('.add-comment-section');
+
+            // Close add comment section if open
+            addCommentSection.classList.remove('active');
+
+            // Toggle comments section
+            commentsSection.classList.toggle('active');
+
+            // Update button text
+            if (commentsSection.classList.contains('active')) {
+                button.innerHTML = '<i class="far fa-eye-slash"></i> بستن نظرات';
+            } else {
+                button.innerHTML = '<i class="far fa-eye"></i> نمایش نظرات';
+            }
+        }
+
+        // Toggle add comment form
+        function toggleAddComment(button) {
+            const postCard = button.closest('.post-card');
+            const addCommentSection = postCard.querySelector('.add-comment-section');
+            const commentsSection = postCard.querySelector('.comments-section');
+
+            // Close comments section if open
+            commentsSection.classList.remove('active');
+
+            // Update comments button text
+            const commentsButton = postCard.querySelector('.btn-secondary');
+            commentsButton.innerHTML = '<i class="far fa-eye"></i> نمایش نظرات';
+
+            // Toggle add comment section
+            addCommentSection.classList.toggle('active');
+        }
+
+        // Cancel comment
+        function cancelComment(button) {
+            const addCommentSection = button.closest('.add-comment-section');
+            addCommentSection.classList.remove('active');
+
+            // Reset form
+            const form = addCommentSection.querySelector('form');
+            form.reset();
+
+            // Reset stars
+            const ratingId = addCommentSection.id.split('-')[2];
+            const stars = document.querySelectorAll(`#rating-${ratingId} .star`);
+            stars.forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+                star.style.color = '#ddd';
+            });
+            document.getElementById(`rating-value-${ratingId}`).value = '0';
+        }
+
+        // Submit comment
+        function submitComment(event, form) {
+            event.preventDefault();
+            const postCard = form.closest('.post-card');
+            const addCommentSection = postCard.querySelector('.add-comment-section');
+            const ratingId = addCommentSection.id.split('-')[2];
+            const ratingValue = document.getElementById(`rating-value-${ratingId}`).value;
+
+            if (ratingValue === '0') {
+                alert('لطفا امتیاز دهید');
+                return;
+            }
+
+            // Here you would typically send the data to a server
+            const currentDate = new Date().toLocaleDateString('fa-IR');
+            alert(`نظر شما با امتیاز ${ratingValue} ستاره ثبت شد!\nتاریخ: ${currentDate}`);
+
+            // Reset form and close section
+            form.reset();
+            addCommentSection.classList.remove('active');
+
+            // Reset stars
+            const stars = document.querySelectorAll(`#rating-${ratingId} .star`);
+            stars.forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+                star.style.color = '#ddd';
+            });
+            document.getElementById(`rating-value-${ratingId}`).value = '0';
+        }
+
+        // Add interactivity to continue reading buttons
+        document.querySelectorAll('.btn-outline').forEach(button => {
+            button.addEventListener('click', function() {
+                const postTitle = this.closest('.post-card').querySelector('.post-title').textContent;
+                alert(`پست "${postTitle}" به طور کامل نمایش داده شد`);
+            });
+        });
+
+        // Add hover effects to categories
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(-5px)';
+            });
+
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Add click effect to author items
+        document.querySelectorAll('.author-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const authorName = this.querySelector('.author-name').textContent;
+                alert(`پروفایل ${authorName} باز شد`);
+            });
+        });
+    </script>
+    <script>
+        // Star rating functionality
+        const stars = document.querySelectorAll('.star-rating-input i');
+        const ratingInput = document.getElementById('rating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.getAttribute('data-rating');
+                ratingInput.value = rating;
+
+                stars.forEach(s => {
+                    const sRating = s.getAttribute('data-rating');
+                    if (sRating <= rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas', 'active');
+                    } else {
+                        s.classList.remove('fas', 'active');
+                        s.classList.add('far');
+                    }
+                });
+            });
+
+            // Hover effect
+            star.addEventListener('mouseenter', function() {
+                const hoverRating = this.getAttribute('data-rating');
+                stars.forEach(s => {
+                    const sRating = s.getAttribute('data-rating');
+                    if (sRating <= hoverRating) {
+                        s.style.color = '#ffc107';
+                    } else {
+                        s.style.color = '#ddd';
+                    }
+                });
+            });
+
+            star.addEventListener('mouseleave', function() {
+                const currentRating = ratingInput.value;
+                stars.forEach(s => {
+                    const sRating = s.getAttribute('data-rating');
+                    if (sRating <= currentRating) {
+                        s.style.color = '#ffc107';
+                    } else {
+                        s.style.color = '#ddd';
+                    }
+                });
+            });
+        });
+
+        // Form submission
+        function submitComment(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const comment = document.getElementById('comment').value;
+            const rating = ratingInput.value;
+
+            if (rating === '0') {
+                alert('لطفا امتیاز دهید');
+                return;
+            }
+
+            // Show loading
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Create new comment element
+                const commentsList = document.querySelector('.comments-list');
+                const newComment = document.createElement('div');
+                newComment.className = 'comment-item';
+                newComment.innerHTML = `
+                    <div class="comment-header">
+                        <div class="comment-user">
+                            <div class="user-avatar">${name.charAt(0)}</div>
+                            <div class="user-info">
+                                <h4>${name}</h4>
+                                <div class="comment-date">
+                                    <i class="far fa-calendar"></i>
+                                    همین الان
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-rating">
+                            ${getStarsHTML(rating)}
+                        </div>
+                    </div>
+                    <p class="comment-text">${comment}</p>
+                `;
+
+                // Add to the top of comments list
+                commentsList.insertBefore(newComment, commentsList.firstChild);
+
+                // Update comments count
+                const commentsCount = document.querySelector('.comments-count');
+                const currentCount = parseInt(commentsCount.textContent);
+                commentsCount.textContent = (currentCount + 1) + ' نظر';
+
+                // Reset form
+                resetForm();
+
+                // Show success message
+                showNotification('نظر شما با موفقیت ثبت شد و پس از تایید نمایش داده می‌شود.', 'success');
+
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        }
+
+        function getStarsHTML(rating) {
+            let starsHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    starsHTML += '<i class="fas fa-star star"></i>';
+                } else if (i - 0.5 <= rating) {
+                    starsHTML += '<i class="fas fa-star-half-alt star"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+            }
+            return starsHTML;
+        }
+
+        function resetForm() {
+            document.getElementById('commentForm').reset();
+            ratingInput.value = '0';
+            stars.forEach(star => {
+                star.classList.remove('fas', 'active');
+                star.classList.add('far');
+                star.style.color = '#ddd';
+            });
+        }
+
+        // function goBack() {
+        //     if (confirm('آیا مایلید به صفحه قبلی بازگردید؟')) {
+        //         In real app, you would use: history.back() or redirect to specific page
+        //         alert('بازگشت به صفحه مقالات');
+        //         window.location.href = 'index.html'; Change to your actual page
+        //     }
+        // }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+            `;
+
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: ${type === 'success' ? '#00b894' : '#0984e3'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+            `;
+
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+
+            // Add animations
+            const style = document.createElement('style');
+            style.textContent = `
+        keyframes slideIn {
+                    from { transform: translateX(-100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+        keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(-100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
